@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elk.exam.mapper.ExamMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.elk.exam.model.Exam">
+        <id column="exam_id" property="examId" />
+        <result column="exam_name" property="examName" />
+        <result column="exam_avatar" property="examAvatar" />
+        <result column="exam_description" property="examDescription" />
+        <result column="exam_question_ids" property="examQuestionIds" />
+        <result column="exam_question_ids_radio" property="examQuestionIdsRadio" />
+        <result column="exam_question_ids_check" property="examQuestionIdsCheck" />
+        <result column="exam_question_ids_judge" property="examQuestionIdsJudge" />
+        <result column="exam_score" property="examScore" />
+        <result column="exam_score_radio" property="examScoreRadio" />
+        <result column="exam_score_check" property="examScoreCheck" />
+        <result column="exam_score_judge" property="examScoreJudge" />
+        <result column="exam_creator_id" property="examCreatorId" />
+        <result column="exam_time_limit" property="examTimeLimit" />
+        <result column="exam_start_date" property="examStartDate" />
+        <result column="exam_end_date" property="examEndDate" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+</mapper>

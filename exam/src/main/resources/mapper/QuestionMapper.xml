@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elk.exam.mapper.QuestionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.elk.exam.model.Question">
+        <id column="question_id" property="questionId" />
+        <result column="question_name" property="questionName" />
+        <result column="question_score" property="questionScore" />
+        <result column="question_creator_id" property="questionCreatorId" />
+        <result column="question_level_id" property="questionLevelId" />
+        <result column="question_type_id" property="questionTypeId" />
+        <result column="question_category_id" property="questionCategoryId" />
+        <result column="question_description" property="questionDescription" />
+        <result column="question_option_ids" property="questionOptionIds" />
+        <result column="question_answer_option_ids" property="questionAnswerOptionIds" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+</mapper>

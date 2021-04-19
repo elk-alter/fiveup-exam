@@ -1,0 +1,39 @@
+server:
+  port: 9100 # 这个端口要和vue项目里vue.config.js里的devServer里面配置的相同
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: service-exam
+  profiles:
+    active: dev
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    auto-mapping-behavior: partial
+    map-underscore-to-camel-case: true
+
+user:
+  default:
+    # 用户名的默认前缀
+    username: user
+    # 用户的默认头像
+    avatar: http://d.lanrentuku.com/down/png/1904/business_avatar/8_avatar_2754583.png
+
+redis:
+  database: exam
+  key:
+    user: 'user'
+  expire:
+    common: 86400 # 24小时
+
+# 拦截器相关的配置
+interceptors:
+  # 不需要进行鉴权的接口地址，用逗号隔开
+  auth-ignore-uris: ${server.servlet.context-path}/user/register,${server.servlet.context-path}/user/login
+

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elk.exam.mapper.ExamRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.elk.exam.model.ExamRecord">
+        <id column="exam_record_id" property="examRecordId" />
+        <result column="exam_joiner_id" property="examJoinerId" />
+        <result column="exam_join_date" property="examJoinDate" />
+        <result column="exam_time_cost" property="examTimeCost" />
+        <result column="exam_join_score" property="examJoinScore" />
+        <result column="exam_result_level" property="examResultLevel" />
+        <result column="answer_option_ids" property="answerOptionIds" />
+        <result column="exam_id" property="examId" />
+    </resultMap>
+
+</mapper>

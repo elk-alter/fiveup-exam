@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elk.exam.mapper.QuestionOptionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.elk.exam.model.QuestionOption">
+        <id column="question_option_id" property="questionOptionId" />
+        <result column="question_option_content" property="questionOptionContent" />
+        <result column="question_option_description" property="questionOptionDescription" />
+    </resultMap>
+
+</mapper>
