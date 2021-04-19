@@ -166,6 +166,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
         String radioIdsStr = "";
         String checkIdsStr = "";
         String judgeIdsStr = "";
+        System.out.println("examCreateVo.getChecks():" + examCreateVo.getChecks());
         List<ExamQuestionSelectVo> radios = examCreateVo.getRadios();
         List<ExamQuestionSelectVo> checks = examCreateVo.getChecks();
         List<ExamQuestionSelectVo> judges = examCreateVo.getJudges();
@@ -176,6 +177,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
                 radioCnt++;
             }
         }
+        System.out.println("radioIdsStr:"+radioIdsStr);
         radioIdsStr = replaceLastSeparator(radioIdsStr);
         for (ExamQuestionSelectVo check : checks) {
             if (check.getChecked()) {
@@ -205,6 +207,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
     }
 
     private String replaceLastSeparator(String str) {
+        if (str.length() < 2) return str;
         String lastChar = str.substring(str.length() - 1);
         // 题目和题目之间用$分隔，题目有多个选项地话用-分隔,题目和选项之间用_分隔
         if ("-".equals(lastChar) || "_".equals(lastChar) || "$".equals(lastChar)) {

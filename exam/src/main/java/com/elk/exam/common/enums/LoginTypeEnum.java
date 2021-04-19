@@ -20,6 +20,6 @@ public enum LoginTypeEnum {
         this.name = name;
     }
 
-    private Integer type;
-    private String name;
+    private final Integer type;
+    private final String name;
 }

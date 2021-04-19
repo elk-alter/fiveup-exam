@@ -61,7 +61,7 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
         int checkScore = exam.getExamScoreCheck();
         int judgeScore = exam.getExamScoreJudge();
         // 2.3 根据问题id的数组拿到所有的问题对象，供下面步骤用
-        List<Question> questionList = questionService.listByIds(questionIds);
+        List<Question> questionList = questionService.listQuestionByIds(questionIds);
         Map<String, Question> questionMap = new HashMap<>();
         for (Question question : questionList) {
             questionMap.put(question.getQuestionId(), question);

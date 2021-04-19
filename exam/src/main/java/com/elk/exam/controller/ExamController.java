@@ -1,6 +1,7 @@
 package com.elk.exam.controller;
 
 
+import com.elk.exam.common.service.RedisService;
 import com.elk.exam.model.Exam;
 import com.elk.exam.model.ExamRecord;
 import com.elk.exam.service.ExamRecordService;
@@ -33,6 +34,9 @@ public class ExamController {
     @Autowired
     private ExamRecordService recordService;
 
+    @Autowired
+    private RedisService redisService;
+
     @GetMapping("/all")
     @ApiOperation("获取全部考试的列表")
     ResultVO<List<ExamVo>> getExamAll() {
@@ -50,10 +54,10 @@ public class ExamController {
 
     @PostMapping("/create")
     @ApiOperation("创建考试")
-    ResultVO<Exam> createExam(@RequestBody ExamCreateVo examCreateVo, HttpServletRequest request) {
+    ResultVO<Exam> createExam(@RequestBody ExamCreateVo examCreateVo) {
         // 从前端传参数过来，在这里完成考试的入库
         ResultVO<Exam> resultVO;
-        String userId = (String) request.getAttribute("user_id");
+        String userId = (String) redisService.get("id");
         try {
             Exam exam = examService.create(examCreateVo, userId);
             resultVO = new ResultVO<>(0, "创建考试成功", exam);
@@ -111,11 +115,11 @@ public class ExamController {
 
     @PostMapping("/finish/{examId}")
     @ApiOperation("根据用户提交的答案对指定id的考试判分")
-    ResultVO<ExamRecord> finishExam(@PathVariable String examId, @RequestBody HashMap<String, List<String>> answersMap, HttpServletRequest request) {
+    ResultVO<ExamRecord> finishExam(@PathVariable String examId, @RequestBody HashMap<String, List<String>> answersMap) {
         ResultVO<ExamRecord> resultVO;
         try {
             // 拦截器里设置上的用户id
-            String userId = (String) request.getAttribute("user_id");
+            String userId = (String) redisService.get("id");
             // 下面根据用户提交的信息进行判分,返回用户的得分情况
             ExamRecord examRecord = recordService.judge(userId, examId, answersMap);
             resultVO = new ResultVO<>(0, "考卷提交成功", examRecord);
