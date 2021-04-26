@@ -35,4 +35,14 @@ public class QuestionOptionServiceImpl extends ServiceImpl<QuestionOptionMapper,
         return questionOptionList;
     }
 
+    @Override
+    public boolean updateOptionByBatch(List<QuestionOption> questionOptions) {
+        for (QuestionOption questionOption : questionOptions) {
+            QueryWrapper<QuestionOption> queryWrapper = new QueryWrapper<>();
+            queryWrapper.lambda().eq(QuestionOption::getQuestionOptionId, questionOption.getQuestionOptionId());
+            update(questionOption, queryWrapper);
+        }
+        return true;
+    }
+
 }

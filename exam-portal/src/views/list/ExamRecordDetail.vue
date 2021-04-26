@@ -99,7 +99,7 @@
           </div>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }">
-          Spting Boot Online Exam ©2020 Created by Liang Shan Guang
+          Fiveup Online Exam System ©2021 Created by Ren Pei Yao
         </a-layout-footer>
       </a-layout>
     </a-layout>

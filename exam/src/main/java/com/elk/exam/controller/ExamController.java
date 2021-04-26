@@ -70,10 +70,10 @@ public class ExamController {
 
     @PostMapping("/update")
     @ApiOperation("更新考试")
-    ResultVO<Exam> updateExam(@RequestBody ExamVo examVo, HttpServletRequest request) {
+    ResultVO<Exam> updateExam(@RequestBody ExamVo examVo) {
         // 从前端传参数过来，在这里完成考试的入库
         ResultVO<Exam> resultVO;
-        String userId = (String) request.getAttribute("user_id");
+        String userId = (String) redisService.get("id");
         try {
             Exam exam = examService.update(examVo, userId);
             resultVO = new ResultVO<>(0, "更新考试成功", exam);

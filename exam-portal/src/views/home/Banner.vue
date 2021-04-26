@@ -4,12 +4,12 @@
       <div class="title-line-wrapper" style="opacity: 1; transform: translate(0px, 0px);">
         <div class="title-line" style="transform: translateX(-64px);"></div>
       </div>
-      <h1 class="" style="opacity: 1; transform: translate(0px, 0px);">Online Exam</h1>
+      <h1 class="" style="opacity: 1; transform: translate(0px, 0px);">Fiveup Online Exam System</h1>
       <p style="opacity: 1; transform: translate(0px, 0px);">
-        <span>基于SpringBoot+Vue技术栈开发的在线考试系统</span>
+        <span>五育并举<br>基于SpringBoot+Vue实现的在线考试系统</span>
       </p>
       <div class="button-wrapper">
-        <a href="https://github.com/19920625lsg">
+        <a href="https://github.com/elk-alter">
           <a-button type="primary">预览</a-button>
         </a>
         <a @click="$router.push({ name: 'docs' })">

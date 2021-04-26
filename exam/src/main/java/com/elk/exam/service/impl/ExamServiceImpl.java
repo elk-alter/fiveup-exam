@@ -260,7 +260,9 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
         // 计算总分数
         int examScore = radioCnt * exam.getExamScoreRadio() + checkCnt * exam.getExamScoreCheck() + judgeCnt * exam.getExamScoreJudge();
         exam.setExamScore(examScore);
-        save(exam);
+        QueryWrapper<Exam> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Exam::getExamId, exam.getExamId());
+        baseMapper.update(exam, queryWrapper);
         return exam;
     }
 

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -26,16 +28,19 @@ public class QuestionType implements Serializable {
      * 题目类型表的主键
      */
         @TableId(value = "question_type_id", type = IdType.AUTO)
+        @JsonProperty("id")
       private Integer questionTypeId;
 
       /**
      * 题目类型名称
      */
+      @JsonProperty("name")
       private String questionTypeName;
 
       /**
      * 题目类型的描述
      */
+      @JsonProperty("description")
       private String questionTypeDescription;
 
 

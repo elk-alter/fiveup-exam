@@ -1,6 +1,7 @@
 package com.elk.exam.controller;
 
 
+import com.elk.exam.common.service.RedisService;
 import com.elk.exam.service.ExamService;
 import com.elk.exam.service.QuestionService;
 import com.elk.exam.vo.*;
@@ -29,6 +30,9 @@ public class QuestionController {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private RedisService redisService;
 
     @ApiOperation("获取所有问题的列表")
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -61,12 +65,12 @@ public class QuestionController {
     @ApiOperation("创建问题")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO<String> questionCreate(@RequestBody QuestionCreateSimplifyVo questionCreateSimplifyVo, HttpServletRequest request) {
+    public ResultVO<String> questionCreate(@RequestBody QuestionCreateSimplifyVo questionCreateSimplifyVo) {
         QuestionCreateVo questionCreateVo = new QuestionCreateVo();
         // 把能拷贝过来的属性都拷贝过来
         BeanUtils.copyProperties(questionCreateSimplifyVo, questionCreateVo);
         // 设置创建者信息
-        String userId = (String) request.getAttribute("user_id");
+        String userId = (String) redisService.get("id");
         questionCreateVo.setQuestionCreatorId(userId);
         System.out.println(questionCreateVo);
         try {

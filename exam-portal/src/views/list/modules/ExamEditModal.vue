@@ -232,6 +232,9 @@ export default {
       this.exam.radios = this.radios
       this.exam.checks = this.checks
       this.exam.judges = this.judges
+      console.log('radios:' + this.exam.radios)
+      console.log('checks:' + this.exam.checks)
+      console.log('judges:' + this.exam.judges)
       const that = this
       examUpdate(that.exam).then(res => {
         // 成功就跳转到结果页面
@@ -272,7 +275,7 @@ export default {
         // 当前问题是否被问题创建者选中
         let checked = false
         for (let j = 0; j < values.length; j++) { // 拿着
-          const value = values[j].name
+          const value = values[j]
           if (name === value) {
             // 说明这个问题被考试创建者选中
             checked = true
@@ -297,7 +300,7 @@ export default {
         // 当前问题是否被问题创建者选中
         let checked = false
         for (let j = 0; j < values.length; j++) { // 拿着
-          const value = values[j].name
+          const value = values[j]
           if (name === value) {
             // 说明这个问题被考试创建者选中
             checked = true
@@ -322,7 +325,7 @@ export default {
         // 当前问题是否被问题创建者选中
         let checked = false
         for (let j = 0; j < values.length; j++) { // 拿着
-          const value = values[j].name
+          const value = values[j]
           if (name === value) {
             // 说明这个问题被考试创建者选中
             checked = true

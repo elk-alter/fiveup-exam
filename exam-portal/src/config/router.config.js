@@ -81,6 +81,23 @@ export const asyncRouterMap = [
         ]
       },
       {
+        path: '/list/user-list',
+        name: 'user-list',
+        component: PageView,
+        redirect: '/list/user-list',
+        hideChildrenInMenu: true,
+        meta: { title: '用户管理', icon: examAdmin, permission: ['user-list'] },
+        children: [
+          {
+            path: '/list/user-list',
+            name: 'UserListWrapper',
+            hideChildrenInMenu: true, // 强制显示 MenuItem 而不是 SubMenu
+            component: () => import('../views/list/UserList'),
+            meta: { title: '用户列表', keepAlive: true, permission: ['user-list'] }
+          }
+        ]
+      },
+      {
         path: '/exam-record-list',
         name: 'exam-record-list',
         redirect: '/list/exam-record-list',

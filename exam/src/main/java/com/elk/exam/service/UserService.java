@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.elk.exam.vo.UserInfoVo;
 import com.elk.exam.vo.UserVo;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户信息表 服务类
@@ -47,4 +49,17 @@ public interface UserService extends IService<User> {
      * @return 用户信息组装的实体
      */
     UserInfoVo getInfo(String userId);
+
+    /**
+     * 获取用户列表
+     * @return 用户列表
+     */
+    List<UserVo> listAll();
+
+    /**
+     *
+     * @param userVo
+     * @return
+     */
+    User updateUser(UserVo userVo);
 }

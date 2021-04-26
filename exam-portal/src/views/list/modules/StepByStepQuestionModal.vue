@@ -207,6 +207,7 @@ export default {
           this.categories = res.data.categories
           this.levels = res.data.levels
           this.types = res.data.types
+          console.log(this.categories)
         } else {
           this.$notification.error({
             message: '获取问题下拉选项失败',

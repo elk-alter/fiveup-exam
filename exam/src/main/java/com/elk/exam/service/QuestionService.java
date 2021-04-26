@@ -56,4 +56,9 @@ public interface QuestionService extends IService<Question> {
     QuestionDetailVo getQuestionDetail(String id);
 
     List<Question> listQuestionByIds(List<String> asList);
+
+    void updateQuestionById(Question question);
+
+    void insertQuestionById(Question question);
+
 }

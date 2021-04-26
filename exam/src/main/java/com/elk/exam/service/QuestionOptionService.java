@@ -17,4 +17,6 @@ public interface QuestionOptionService extends IService<QuestionOption> {
 
     List<QuestionOption> listOptionByIds(List<String> ids);
 
+    boolean updateOptionByBatch(List<QuestionOption> questionOptions);
+
 }

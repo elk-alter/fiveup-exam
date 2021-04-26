@@ -2,7 +2,7 @@
   <a-card :bordered="false">
     <div id="toolbar">
       <a-button type="primary" icon="plus" @click="$refs.createQuestionModal.create()">新建</a-button>&nbsp;
-      <a-button type="primary" icon="reload" @click="loadAll()">全量刷新</a-button>
+      <a-button type="primary" icon="reload" @click="loadAll()">刷新</a-button>
     </div>
     <BootstrapTable
       ref="table"
@@ -24,7 +24,7 @@ import QuestionViewModal from './modules/QuestionViewModal'
 import QuestionEditModal from './modules/QuestionEditModal'
 import StepByStepQuestionModal from './modules/StepByStepQuestionModal'
 import { getQuestionAll, questionUpdate, getQuestionSelection } from '../../api/exam'
-import SummernoteUpdateModal from '@views/list/modules/SummernoteUpdateModal'
+import SummernoteUpdateModal from './modules/SummernoteUpdateModal'
 import $ from 'jquery'
 
 export default {

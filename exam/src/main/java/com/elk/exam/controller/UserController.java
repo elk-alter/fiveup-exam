@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -92,6 +93,29 @@ public class UserController {
         System.out.println("用户id：" + userId);
         System.out.println("用户名：" + username);
         return "用户id：" + userId + "\n用户名：" + username;
+    }
+
+    @GetMapping("/list")
+    @ApiOperation("获取用户的详细信息，包括个人信息页面和操作权限")
+    public ResultVO<List<UserVo>> listAll() {
+        System.out.println("进入/user/listAll的获取用户信息的接口");
+        List<UserVo> userVoList = userService.listAll();
+        return new ResultVO<>(ResultEnum.GET_INFO_SUCCESS.getCode(), ResultEnum.GET_INFO_SUCCESS.getMessage(), userVoList);
+    }
+
+    @PostMapping("/update")
+    @ApiOperation("更新")
+    public ResultVO<User> Update(@RequestBody UserVo userVo) {
+        ResultVO<User> resultVO;
+        // 注册信息的完善，还有唯一性校验没(用户名、邮箱和手机号)已经在user表中通过unique来设置了
+        User user = userService.updateUser(userVo);
+        if (user != null) {
+            // 注册成功
+            resultVO = new ResultVO<>(ResultEnum.REGISTER_SUCCESS.getCode(), ResultEnum.REGISTER_SUCCESS.getMessage(), user);
+        } else {
+            resultVO = new ResultVO<>(ResultEnum.REGISTER_FAILED.getCode(), ResultEnum.REGISTER_FAILED.getMessage(), null);
+        }
+        return resultVO;
     }
 }
 

@@ -89,7 +89,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user;
         if (LoginTypeEnum.USERNAME.getType().equals(loginDTO.getLoginType())) {
             // 登陆者用地是用户名
-            user = getUserById(loginDTO.getUserInfo());
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.lambda().eq(User::getUserUsername, loginDTO.getUserInfo());
+            user = getOne(queryWrapper);
         } else {
             // 登陆者用地是邮箱
             QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -196,5 +198,39 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         return userInfoVo;
+    }
+
+    @Override
+    public List<UserVo> listAll() {
+        List<User> userList = list();
+        List<UserVo> userVoList = new ArrayList<>();
+
+        for (User user : userList) {
+            UserVo userVo = new UserVo();
+            userVo.setUserId(user.getUserId());
+            userVo.setUserUsername(user.getUserUsername());
+            userVo.setUserNickname(user.getUserNickname());
+            userVo.setUserRoleId(user.getUserRoleId());
+            userVo.setUserAvatar(user.getUserAvatar());
+            userVo.setUserDescription(user.getUserDescription());
+            userVo.setUserEmail(user.getUserEmail());
+            userVo.setUserPhone(user.getUserPhone());
+
+            userVoList.add(userVo);
+        }
+
+        return userVoList;
+    }
+
+    @Override
+    public User updateUser(UserVo userVo) {
+        User user = getUserById(userVo.getUserId());
+        BeanUtils.copyProperties(user, userVo);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(User::getUserId, user.getUserId());
+
+        update(user, queryWrapper);
+
+        return user;
     }
 }

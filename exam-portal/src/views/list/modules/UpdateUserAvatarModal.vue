@@ -1,7 +1,7 @@
 <template>
-  <a-modal title="编辑封面" :width="400" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel">
+  <a-modal title="编辑头像" :width="400" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel">
     <p>截图直接粘贴到下面即可，建议图片不要大于80*80</p>
-    <div id="summernote-exam-avatar"></div>
+    <div id="summernote-user-avatar"></div>
     <template slot="footer">
       <a-button key="update" @click="handleUpdate">完成</a-button>
       <a-button key="cancel" @click="handleCancel">关闭</a-button>
@@ -10,29 +10,28 @@
 </template>
 
 <script>
-import { examUpdate } from '@api/exam'
-import '@/plugins/summernote'
+import { userUpdate } from '@api/user'
+import '../../../plugins/summernote'
 import $ from 'jquery'
 
 export default {
-  // 编译图片的弹出框，用富文本编辑
-  name: 'UpdateAvatarModal',
+  name: 'UpdateUserAvatarModal',
   data () {
     return {
       confirmLoading: false,
       visible: false,
       // 每个问题
-      exam: {}
+      user: {}
     }
   },
   updated () {
     this.initSummernote()
-    $('#summernote-exam-avatar').summernote('code', this.exam.avatar) // 把图片数据写入进去
+    $('#summernote-user-avatar').summernote('code', this.user.avatar) // 把图片数据写入进去
   },
   methods: {
     initSummernote () {
       console.log('初始化富文本插件')
-      $('#summernote-exam-avatar').summernote({
+      $('#summernote-user-avatar').summernote({
         lang: 'zh-CN',
         placeholder: '请输入内容',
         height: 200,
@@ -47,11 +46,11 @@ export default {
         ]
       })
     },
-    edit (exam) {
+    edit (user) {
       this.visible = true
       // 把当前的记录赋值到data中的变量
-      Object.assign(this.exam, exam)
-      this.avatar = exam.avatar
+      Object.assign(this.user, user)
+      this.avatar = user.avatar
     },
     handleCancel () {
       // clear form & currentStep
@@ -59,14 +58,14 @@ export default {
     },
     handleUpdate () {
       const that = this
-      that.exam.avatar = $('#summernote-exam-avatar').summernote('code')
-      examUpdate(that.exam).then(res => {
+      that.user.avatar = $('#summernote-user-avatar').summernote('code')
+      userUpdate(that.user).then(res => {
         // 成功就跳转到结果页面
         console.log(res)
         if (res.code === 0) {
           that.$notification.success({
             message: '更新成功',
-            description: '考试更新成功'
+            description: '用户更新成功'
           })
           // 关闭弹出框
           that.visible = false
@@ -75,7 +74,7 @@ export default {
       }).catch(err => {
         // 失败就弹出警告消息
         that.$notification.error({
-          message: '考试更新失败',
+          message: '用户更新失败',
           description: err.message
         })
       })
@@ -83,3 +82,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>

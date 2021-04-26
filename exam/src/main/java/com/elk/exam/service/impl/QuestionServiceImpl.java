@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.elk.exam.model.Question;
 import com.elk.exam.mapper.QuestionMapper;
 import com.elk.exam.model.QuestionOption;
-import com.elk.exam.model.User;
 import com.elk.exam.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.elk.exam.vo.*;
@@ -82,10 +81,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         Question question = getQuestionById(questionVo.getQuestionId());
         BeanUtils.copyProperties(questionVo, question);
         question.setQuestionAnswerOptionIds(questionAnswerOptionIds.toString());
-        updateById(question);
+        updateQuestionById(question);
 
         // 2.更新所有的option
-        questionOptionService.saveBatch(questionOptionList);
+        questionOptionService.updateOptionByBatch(questionOptionList);
 
         // 返回更新后的问题，方便前端局部刷新
         return getQuestionVo(question);
@@ -137,7 +136,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         question.setCreateTime(new Date());
         question.setUpdateTime(new Date());
         // 保存问题到数据库
-        save(question);
+        insertQuestionById(question);
     }
 
     @Override
@@ -192,6 +191,19 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
             questionList.add(question);
         }
         return questionList;
+    }
+
+    @Override
+    public void updateQuestionById(Question question) {
+        QueryWrapper<Question> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Question::getQuestionId, question.getQuestionId());
+        update(question, queryWrapper);
+    }
+
+    @Override
+    public void insertQuestionById(Question question) {
+        System.out.println(question.toString());
+        save(question);
     }
 
     /**

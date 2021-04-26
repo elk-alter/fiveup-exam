@@ -6,6 +6,10 @@ server:
 spring:
   application:
     name: service-exam
+  servlet:
+    multipart:
+      max-file-size: 100MB # 最大支持文件大小
+      max-request-size: 100MB # 最大支持请求大小
   profiles:
     active: dev
 
