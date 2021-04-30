@@ -32,7 +32,7 @@ export function getSmsCaptcha (parameter) {
 export function getInfo () {
   return axios({
     url: api.UserInfo,
-    method: 'get',
+    method: 'post',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
     }

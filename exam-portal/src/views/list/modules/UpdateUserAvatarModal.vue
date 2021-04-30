@@ -11,7 +11,7 @@
 
 <script>
 import { userUpdate } from '@api/user'
-import '../../../plugins/summernote'
+import '@/plugins/summernote'
 import $ from 'jquery'
 
 export default {
@@ -20,7 +20,7 @@ export default {
     return {
       confirmLoading: false,
       visible: false,
-      // 每个问题
+      // 每个用户
       user: {}
     }
   },
@@ -82,7 +82,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

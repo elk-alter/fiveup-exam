@@ -10,7 +10,7 @@ public class UserInfoVo {
     private String userId;
 
     @JsonProperty("avatar")
-    private String userAvatar;
+    private String userAvatar = "";
 
     @JsonProperty("name")
     private String userNickname;

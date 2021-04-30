@@ -19,15 +19,15 @@ export function register (parameter) {
   })
 }
 
-export function getUserList (parameter) {
+export function getUserList () {
   return axios({
     url: api.UserList,
     method: 'get',
-    data: parameter
   })
 }
 
 export function userUpdate (parameter) {
+  console.log(parameter)
   return axios({
     url: api.UserUpdate,
     method: 'post',

@@ -11,6 +11,8 @@ public enum ResultEnum {
     LOGIN_FAILED(-1, "用户名或者密码错误"),
     GET_INFO_SUCCESS(0, "获取用户信息成功"),
     PARAM_ERR(1, "参数不正确"),
+    UPDATE_SUCCESS(0, "更新成功"),
+    UPDATE_ERR(-1, "更新失败"),
     PRODUCT_NOT_EXIST(10, "用户不存在"),
     PRODUCT_STOCK_ERR(11, "考试信息异常"),
     ORDER_STATUS_ERR(14, "考试状态异常"),

@@ -225,7 +225,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User updateUser(UserVo userVo) {
         User user = getUserById(userVo.getUserId());
-        BeanUtils.copyProperties(user, userVo);
+        BeanUtils.copyProperties(userVo, user);
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(User::getUserId, user.getUserId());
 

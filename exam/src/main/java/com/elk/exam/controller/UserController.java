@@ -75,7 +75,7 @@ public class UserController {
         return new ResultVO<>(ResultEnum.GET_INFO_SUCCESS.getCode(), ResultEnum.GET_INFO_SUCCESS.getMessage(), userVo);
     }
 
-    @GetMapping("/info")
+    @PostMapping("/info")
     @ApiOperation("获取用户的详细信息，包括个人信息页面和操作权限")
     public ResultVO<UserInfoVo> getInfo() {
         System.out.println("进入/user/info的获取用户信息的接口");
@@ -104,16 +104,18 @@ public class UserController {
     }
 
     @PostMapping("/update")
-    @ApiOperation("更新")
+    @ApiOperation("更新用户")
     public ResultVO<User> Update(@RequestBody UserVo userVo) {
+
+        System.out.println("UserVO:" + userVo.toString());
         ResultVO<User> resultVO;
-        // 注册信息的完善，还有唯一性校验没(用户名、邮箱和手机号)已经在user表中通过unique来设置了
+        // 更新信息的完善，还有唯一性校验没(用户名、邮箱和手机号)已经在user表中通过unique来设置了
         User user = userService.updateUser(userVo);
         if (user != null) {
-            // 注册成功
-            resultVO = new ResultVO<>(ResultEnum.REGISTER_SUCCESS.getCode(), ResultEnum.REGISTER_SUCCESS.getMessage(), user);
+            // 更新成功
+            resultVO = new ResultVO<>(ResultEnum.UPDATE_SUCCESS.getCode(), ResultEnum.UPDATE_SUCCESS.getMessage(), user);
         } else {
-            resultVO = new ResultVO<>(ResultEnum.REGISTER_FAILED.getCode(), ResultEnum.REGISTER_FAILED.getMessage(), null);
+            resultVO = new ResultVO<>(ResultEnum.UPDATE_ERR.getCode(), ResultEnum.UPDATE_ERR.getMessage(), null);
         }
         return resultVO;
     }

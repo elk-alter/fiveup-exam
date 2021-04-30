@@ -1,7 +1,6 @@
 <template>
   <a-card :bordered="false">
     <div id="toolbar">
-      <a-button type="primary" icon="plus" @click="$refs.createQuestionModal.create()">新建</a-button>&nbsp;
       <a-button type="primary" icon="reload" @click="loadAll()">刷新</a-button>
     </div>
     <BootstrapTable
@@ -12,7 +11,7 @@
     />
     <!-- ref是为了方便用this.$refs.modal直接引用，下同 -->
     <update-user-avatar-modal ref="updateUserAvatarModal" @ok="handleOk" />
-    < ref="questionUpdateModal" @ok="handleOk" />
+    <summernote-update-modal ref="userUpdateModal" @ok="handleOk" />
   </a-card>
 </template>
 
@@ -20,10 +19,12 @@
 import '../../plugins/bootstrap-table'
 import { getUserList,userUpdate } from '@api/user'
 import UpdateUserAvatarModal from '@views/list/modules/UpdateUserAvatarModal'
+import SummernoteUpdateModal from './modules/SummernoteUpdateModal'
 
 export default {
   name: 'UserList',
   components: {
+    SummernoteUpdateModal,
     UpdateUserAvatarModal
   },
   data () {
@@ -39,31 +40,9 @@ export default {
           }
         },
         {
-          title: '用户名',
-          field: 'username',
-          width: 200,
-          formatter: (value, row) => {
-            return '<div class="username" style="height: 100%;width: 100%">' + value + '</div>'
-          }
-        },
-        {
-          title: '昵称',
-          field: 'nickname',
-          width: 200,
-          formatter: (value, row) => {
-            return '<div class="nickname">' + value + '</div>'
-          }
-        },
-        {
-          title: '角色',
-          field: 'role',
-          formatter: (value, row) => {
-            return '<div class="role">' + value + '</div>'
-          }
-        },
-        {
           title: '头像',
           field: 'avatar',
+          width: 50,
           formatter: (value, row) => {
             return '<div class="user-avatar">' + value + '</div>'
           },
@@ -74,41 +53,76 @@ export default {
           }
         },
         {
+          title: '用户名',
+          field: 'username',
+          width: 200,
+          formatter: (value, row) => {
+            return '<div class="username" style="height: 100%;width: 100%">' + value + '</div>'
+          },
+          events: {
+            'click .username': function (e, value, row, index) {
+              that.$refs.userUpdateModal.edit('summernote-user-username-update', row, 'username', '更新用户名', userUpdate)
+            }
+          }
+        },
+        {
+          title: '昵称',
+          field: 'nickname',
+          width: 200,
+          formatter: (value, row) => {
+            return '<div class="nickname">' + value + '</div>'
+          },
+          events: {
+            'click .nickname': function (e, value, row, index) {
+              that.$refs.userUpdateModal.edit('summernote-user-nickname-update', row, 'nickname', '更新昵称', userUpdate)
+            }
+          }
+        },
+        {
+          title: '角色',
+          field: 'role',
+          formatter: (value, row) => {
+            return '<div class="role">' + value + '</div>'
+          },
+          events: {
+            'click .role': function (e, value, row, index) {
+              that.$refs.userUpdateModal.edit('summernote-user-role-update', row, 'role', '更新角色', userUpdate)
+            }
+          }
+        },
+        {
           title: '签名',
           field: 'description',
           formatter: (value, row) => {
-            return '<div class="question-level">' + value + '</div>'
+            return '<div class="description">' + value + '</div>'
+          },
+          events: {
+            'click .description': function (e, value, row, index) {
+              that.$refs.userUpdateModal.edit('summernote-user-description-update', row, 'description', '更新签名', userUpdate)
+            }
           }
         },
         {
           title: '邮箱',
           field: 'email',
           formatter: (value, row) => {
-            return '<div class="question-type">' + value + '</div>'
+            return '<div class="email">' + value + '</div>'
+          },
+          events: {
+            'click .email': function (e, value, row, index) {
+              that.$refs.userUpdateModal.edit('summernote-user-email-update', row, 'email', '更新邮箱', userUpdate)
+            }
           }
         },
         {
           title: '手机号',
           field: 'phone',
           formatter: (value, row) => {
-            return '<div class="question-category">' + value + '</div>'
-          }
-        },
-        {
-          title: '操作',
-          field: 'action',
-          align: 'center',
-          formatter: (value, row) => {
-            return '<button type="button" class="btn btn-success view-question">详情</button>' +
-                '&nbsp;&nbsp;' +
-                '<button type="button" class="btn btn-success edit-question">编辑</button>'
+            return '<div class="phone">' + value + '</div>'
           },
           events: {
-            'click .view-question': function (e, value, row, index) {
-              that.handleSub(row)
-            },
-            'click .edit-question': function (e, value, row, index) {
-              that.handleEdit(row)
+            'click .phone': function (e, value, row, index) {
+              that.$refs.userUpdateModal.edit('summernote-user-phone-update', row, 'phone', '更新手机号', userUpdate)
             }
           }
         }
@@ -127,7 +141,7 @@ export default {
         // 下面是常用的事件，更多的点击事件可以参考：http://www.itxst.com/bootstrap-table-events/tutorial.html
         // onClickRow: that.clickRow,
         // onClickCell: that.clickCell // 单元格单击事件
-        // onDblClickCell: that.dblClickCell // 单元格双击事件
+        onDblClickCell: that.dblClickCell // 单元格双击事件
       }
     }
   },
@@ -135,26 +149,6 @@ export default {
     this.loadAll() // 加载所有问题的数据
   },
   methods: {
-    edit (user) {
-      Object.assign(this.user, user) // 深度拷贝
-      this.visible = true
-      // 每次编辑需要先清空下之前的数据
-      this.username = user.username
-      this.nickname = user.nickname
-      this.description = user.description
-      this.avatar = user.avatar
-      this.id = user.id
-      this.role = user.role
-      const that = this
-    },
-    handleEdit (record) {
-      this.$refs.modalEdit.edit(record)
-    },
-    handleSub (record) {
-      // 查看题目
-      console.log(record)
-      this.$refs.modalView.edit(record)
-    },
     handleUserAvatarEdit (record) {
       console.log('开始更新封面啦')
       console.log(record)

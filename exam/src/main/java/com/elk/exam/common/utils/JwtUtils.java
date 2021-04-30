@@ -17,13 +17,14 @@ public class JwtUtils {
     /**
      * 构建token的主题
      */
-    private static final String SUBJECT = "lsg_exam";
+    private static final String SUBJECT = "fiveup_exam";
     /**
-     * 过期时间为1天
+     * 过期时间为1hour
      */
-    private static final long EXPIRE = 1000 * 60 * 60 * 24;
+    private static final long EXPIRE = 1000 * 60 * 60;
 
-    private static final String APP_SECRET = "liangshanguang";
+    //最短4个字符
+    private static final String APP_SECRET = "fiveup_elk";
 
     public static String genJsonWebToken(User user) {
         if (user == null || user.getUserId() == null || user.getUserUsername() == null || user.getUserAvatar() == null) {
@@ -33,7 +34,7 @@ public class JwtUtils {
                 // 下面3行设置token中间字段，携带用户的信息
                 .claim("id", user.getUserId())
                 .claim("username", user.getUserUsername())
-                .claim("avatar", user.getUserAvatar())
+                .claim("nickname", user.getUserNickname())
                 .setIssuedAt(new Date())
                 // 设置过期时间
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
