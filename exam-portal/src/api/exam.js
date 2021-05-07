@@ -151,3 +151,33 @@ export function getExamRecordList () {
     }
   })
 }
+
+export function getExamRecordListByExam (examId) {
+  return axios({
+    url: api.ExamRecordListByExam + examId,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
+export function getExamPercentage (recordId) {
+  return axios({
+    url: api.ExamPercentage + recordId,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
+export function getRecord (recordId) {
+  return axios({
+    url: api.ExamRecord + recordId,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}

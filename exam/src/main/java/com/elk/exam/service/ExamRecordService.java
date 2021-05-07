@@ -53,4 +53,25 @@ public interface ExamRecordService extends IService<ExamRecord> {
      * @return 用户参加过的所有考试
      */
     List<ExamRecord> findByExamJoinerIdOrderByExamJoinDateDesc(String userId);
+
+    /**
+     * 所有考试结果
+     * @return 所有考试结果
+     */
+    List<ExamRecordVo> getExamResultList();
+
+    /**
+     * 根据考试返回记录
+     * @param examId 考试id
+     * @return 记录
+     */
+    List<ExamRecordVo> getExamRecordListByExam(String examId);
+
+    /**
+     * 获得百分比
+     * @param recordId 记录
+     * @return 百分比
+     */
+    double getRecordPercentage(String recordId);
+
 }

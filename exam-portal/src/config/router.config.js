@@ -98,6 +98,22 @@ export const asyncRouterMap = [
         ]
       },
       {
+        path: '/exam-result-list',
+        name: 'exam-result-list',
+        redirect: '/list/exam-result-list',
+        component: PageView,
+        hideChildrenInMenu: true,
+        meta: { title: '考试记录', keepAlive: true, icon: 'user', permission: ['exam-result-list'] },
+        children: [
+          {
+            path: '/list/exam-result-list',
+            name: 'ExamResultList',
+            component: () => import('../views/list/ExamResultList'),
+            meta: { title: '考试记录', keepAlive: true, permission: ['exam-result-list'] }
+          }
+        ]
+      },
+      {
         path: '/exam-record-list',
         name: 'exam-record-list',
         redirect: '/list/exam-record-list',
@@ -110,6 +126,13 @@ export const asyncRouterMap = [
             name: 'ExamRecordList',
             component: () => import('../views/list/ExamRecordList'),
             meta: { title: '我参与过的考试列表', keepAlive: true, permission: ['exam-record-list'] }
+          },
+          {
+            path: '/list/result-page',
+            name: 'ResultPage',
+            component: () => import('../views/list/ResultPage'),
+            hidden: true,
+            meta: { title: '考试结果', keepAlive: true, permission: ['result-page'] }
           }
         ]
       },

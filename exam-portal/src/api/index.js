@@ -35,6 +35,9 @@ const api = {
   // 交卷
   FinishExam: '/exam/finish/',
   ExamRecordList: '/record/list',
-  recordDetail: '/record/detail/'
+  ExamRecordListByExam: '/record/listByExam/',
+  recordDetail: '/record/detail/',
+  ExamPercentage: '/record/percentage/',
+  ExamRecord: '/record/'
 }
 export default api

@@ -16,6 +16,8 @@ import com.elk.exam.service.UserService;
 import com.elk.exam.vo.ExamDetailVo;
 import com.elk.exam.vo.ExamRecordVo;
 import com.elk.exam.vo.RecordDetailVo;
+import com.google.common.collect.Lists;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -216,5 +218,64 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
         QueryWrapper<ExamRecord> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ExamRecord::getExamJoinerId, userId).orderByDesc(ExamRecord::getExamJoinDate);
         return list(queryWrapper);
+    }
+
+    @Override
+    public List<ExamRecordVo> getExamResultList() {
+        List<ExamRecord> examRecordList = list();
+        List<ExamRecordVo> examRecordVoList = new ArrayList<>();
+        for (ExamRecord examRecord : examRecordList) {
+            ExamRecordVo examRecordVo = new ExamRecordVo();
+            Exam exam = examService.getExamById(examRecord.getExamId());
+            examRecordVo.setExam(exam);
+            User user = userService.getUserById(examRecord.getExamJoinerId());
+            examRecordVo.setUser(user);
+            examRecordVo.setExamRecord(examRecord);
+            examRecordVoList.add(examRecordVo);
+        }
+        return examRecordVoList;
+    }
+
+    @Override
+    public List<ExamRecordVo> getExamRecordListByExam(String examId) {
+        QueryWrapper<ExamRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ExamRecord::getExamId, examId);
+        List<ExamRecord> examRecordList = list(queryWrapper);
+        List<ExamRecordVo> examRecordVoList = new ArrayList<>();
+        for (ExamRecord examRecord : examRecordList) {
+            ExamRecordVo examRecordVo = new ExamRecordVo();
+            Exam exam = examService.getExamById(examRecord.getExamId());
+            examRecordVo.setExam(exam);
+            User user = userService.getUserById(examRecord.getExamJoinerId());
+            examRecordVo.setUser(user);
+            examRecordVo.setExamRecord(examRecord);
+            examRecordVoList.add(examRecordVo);
+        }
+        return examRecordVoList;
+    }
+
+    @Override
+    public double getRecordPercentage(String recordId) {
+        ExamRecord record = getRecordById(recordId);
+        String examId = record.getExamId();
+        QueryWrapper<ExamRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ExamRecord::getExamId, examId);
+        List<ExamRecord> recordList = list(queryWrapper);
+        List<Integer> scores = new ArrayList<>();
+        for(ExamRecord record1 : recordList) {
+            scores.add(record1.getExamJoinScore());
+        }
+        Collections.sort(scores);
+        if (scores.size() == 0) return 0;
+        if (scores.size() == 1) return 1;
+        int level = 0;
+        for (int i = 0; i < scores.size(); i++) {
+            if (record.getExamJoinScore().equals(scores.get(i))) {
+                level = i;
+            }
+        }
+        System.out.println(scores);
+        System.out.println(scores.size() + " " + level);
+        return level*1.0 / scores.size();
     }
 }

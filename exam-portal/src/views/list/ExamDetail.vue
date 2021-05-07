@@ -1,21 +1,19 @@
 <template>
   <a-layout>
-    <a-layout-header class="header" style="color: #fff">
+    <a-layout-header class="header" :style="{color: '#fff',height: 'auto', minHeight: '7vh'}">
       <!--   v-if="examDetail.exam" 是为了防止 异步请求时页面渲染的时候还没有拿到这个值而报错， 下面多处这个判断都是这个道理 -->
       <span style="font-size:25px;margin-left: 0px;" v-if="examDetail.exam">
         <a-avatar slot="avatar" size="large" shape="circle" :src="examDetail.exam.examAvatar | imgSrcFilter"/>
         {{ examDetail.exam.examName }}
-        <span style="font-size:15px;">{{ examDetail.exam.examDescription }} </span>
       </span>
       <span style="float: right;">
-        <span style="margin-right: 60px; font-size: 20px" v-if="examDetail.exam">考试限时：{{ examDetail.exam.examTimeLimit }}分钟 这里是倒计时</span>
+        <span style="margin-right: 60px; font-size: 20px" v-if="examDetail.exam">考试限时：{{ examDetail.exam.examTimeLimit }}分钟</span>
         <a-button type="danger" ghost style="margin-right: 60px;" @click="finishExam()">交卷</a-button>
-        <a-avatar class="avatar" size="small" :src="avatar()"/>
-        <span style="margin-left: 12px">{{ nickname() }}</span>
+
       </span>
     </a-layout-header>
     <a-layout>
-      <a-layout-sider width="190" :style="{background: '#444',overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }">
+      <a-layout-sider :style="{background: '#444',height: '93vh'}" v-model="collapsed" collapsible>
         <a-menu
           mode="inline"
           :defaultSelectedKeys="['1']"
@@ -23,21 +21,21 @@
           :style="{ height: '100%', borderRight: 0 }"
         >
           <a-sub-menu key="question_radio">
-            <span slot="title" v-if="examDetail.exam"><a-icon type="check-circle" theme="twoTone"/>单选题(每题{{ examDetail.exam.examScoreRadio }}分)</span>
+            <span slot="title" v-if="examDetail.exam"><a-icon type="check-circle" theme="twoTone"/><span>单选题(每题{{ examDetail.exam.examScoreRadio }}分)</span></span>
             <a-menu-item v-for="(item, index) in examDetail.radioIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="question_check">
-            <span slot="title" v-if="examDetail.exam"><a-icon type="check-square" theme="twoTone"/>多选题(每题{{ examDetail.exam.examScoreCheck }}分)</span>
+            <span slot="title" v-if="examDetail.exam"><a-icon type="check-square" theme="twoTone"/><span>(每题{{ examDetail.exam.examScoreCheck }}分)</span></span>
             <a-menu-item v-for="(item, index) in examDetail.checkIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="question_judge">
-            <span slot="title" v-if="examDetail.exam"><a-icon type="like" theme="twoTone"/>判断题(每题{{ examDetail.exam.examScoreJudge }}分)</span>
+            <span slot="title" v-if="examDetail.exam"><a-icon type="like" theme="twoTone"/><span>(每题{{ examDetail.exam.examScoreJudge }}分)</span></span>
             <a-menu-item v-for="(item, index) in examDetail.judgeIds" :key="item" @click="getQuestionDetail(item)">
               <a-icon type="eye" theme="twoTone" twoToneColor="#52c41a" v-if="answersMap.get(item)"/>
               题目{{ index + 1 }}
@@ -45,7 +43,7 @@
           </a-sub-menu>
         </a-menu>
       </a-layout-sider>
-      <a-layout :style="{ marginLeft: '200px' }">
+      <a-layout>
         <a-layout-content :style="{ margin: '24px 16px 0',height: '84vh', overflow: 'initial' }">
           <div :style="{ padding: '24px', background: '#fff',height: '84vh'}">
             <span v-show="currentQuestion === ''" style="font-size: 30px;font-family: Consolas">欢迎参加考试，请点击左侧题目编号开始答题</span>
@@ -66,7 +64,7 @@
           </div>
         </a-layout-content>
         <a-layout-footer :style="{ textAlign: 'center' }">
-          Spting Boot Online Exam ©2020 Crated by Liang Shan Guang
+          Online Exam System ©2021 Created by Ren Pei Yao
         </a-layout-footer>
       </a-layout>
     </a-layout>
@@ -100,7 +98,8 @@ export default {
         height: '30px',
         lineHeight: '30px',
         marginLeft: '0px'
-      }
+      },
+      collapsed: false
     }
   },
   mounted () {
@@ -197,7 +196,7 @@ export default {
             this.$notification.success({
               message: '考卷提交成功！'
             })
-            this.$router.push('/list/exam-record-list')
+            this.viewResultPage(res.data)
             return res.data
           } else {
             this.$notification.error({
@@ -206,6 +205,15 @@ export default {
             })
           }
         })
+    },
+
+    viewResultPage(record) {
+      this.$router.push({
+        path: '/list/result-page',
+        query: {
+          record: record
+        }
+      })
     }
   }
 }

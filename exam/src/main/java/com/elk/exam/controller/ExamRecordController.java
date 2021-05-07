@@ -2,6 +2,7 @@ package com.elk.exam.controller;
 
 
 import com.elk.exam.common.service.RedisService;
+import com.elk.exam.model.ExamRecord;
 import com.elk.exam.service.ExamRecordService;
 import com.elk.exam.vo.ExamRecordVo;
 import com.elk.exam.vo.RecordDetailVo;
@@ -35,6 +36,21 @@ public class ExamRecordController {
     @Autowired
     private RedisService redisService;
 
+    @RequestMapping("/listByExam/{examId}")
+    @ApiOperation("获取当前用户的考试记录")
+    ResultVO<List<ExamRecordVo>> getExamRecordListByExam(@PathVariable String examId) {
+        ResultVO<List<ExamRecordVo>> resultVO;
+        try {
+            // 下面根据用户账号拿到他(她所有的考试信息)，注意要用VO封装下
+            List<ExamRecordVo> examRecordVoList = recordService.getExamRecordListByExam(examId);
+            resultVO = new ResultVO<>(0, "获取考试记录成功", examRecordVoList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO<>(-1, "获取考试记录失败", null);
+        }
+        return resultVO;
+    }
+
     @RequestMapping("/list")
     @ApiOperation("获取当前用户的考试记录")
     ResultVO<List<ExamRecordVo>> getExamRecordList() {
@@ -53,6 +69,20 @@ public class ExamRecordController {
         return resultVO;
     }
 
+    @RequestMapping("/percentage/{recordId}")
+    @ApiOperation("获得百分比")
+    ResultVO<Double> getExamRecordPercentage(@PathVariable String recordId) {
+        ResultVO<Double> resultVO;
+        try {
+            double recordPercentage = recordService.getRecordPercentage(recordId);
+            resultVO = new ResultVO<>(0, "获取考试记录详情成功", recordPercentage);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO<>(-1, "获取考试记录详情失败", null);
+        }
+        return resultVO;
+    }
+
     @GetMapping("/detail/{recordId}")
     @ApiOperation("根据考试记录id获取考试记录详情")
     ResultVO<RecordDetailVo> getExamRecordDetail(@PathVariable String recordId) {
@@ -60,6 +90,20 @@ public class ExamRecordController {
         try {
             RecordDetailVo recordDetailVo = recordService.getRecordDetail(recordId);
             resultVO = new ResultVO<>(0, "获取考试记录详情成功", recordDetailVo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO<>(-1, "获取考试记录详情失败", null);
+        }
+        return resultVO;
+    }
+
+    @GetMapping("/{recordId}")
+    @ApiOperation("根据考试记录id获取考试记录详情")
+    ResultVO<ExamRecord> getExamRecord(@PathVariable String recordId) {
+        ResultVO<ExamRecord> resultVO;
+        try {
+            ExamRecord examRecord = recordService.getRecordById(recordId);
+            resultVO = new ResultVO<>(0, "获取考试记录详情成功", examRecord);
         } catch (Exception e) {
             e.printStackTrace();
             resultVO = new ResultVO<>(-1, "获取考试记录详情失败", null);

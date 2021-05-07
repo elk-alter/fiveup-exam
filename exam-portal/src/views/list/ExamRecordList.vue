@@ -12,6 +12,8 @@
           </a-list-item-meta>
           <div slot="actions">
             <a @click="viewExamRecordDetail(item.examRecord)">查看考试详情</a>
+            <br>
+            <a @click="viewResultPage(item.examRecord)">查看考试统计</a>
           </div>
           <div class="list-content">
             <div class="list-content-item">
@@ -61,6 +63,14 @@ export default {
       })
       // 和点击考试卡片效果一样，跳转到考试页面，里面有所有题目的情况，相当于就是详情了
       window.open(routeUrl.href, '_blank')
+    },
+    viewResultPage(record) {
+      this.$router.push({
+        path: '/list/result-page',
+        query: {
+          record: record
+        }
+      })
     }
   },
   mounted () {
