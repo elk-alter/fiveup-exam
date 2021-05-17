@@ -267,81 +267,81 @@ export default {
         return
       }
       // // last step，最后一步，代表完成考试编写，需要点击"完成"创建考试
-      // this.confirmLoading = true
-      // validateFields((errors, values) => { // values就是表单中校验的值，后面提交到后端接口时主要就是用这个values
-      //   values.avatar = $('#summernote-exam-avatar-create').summernote('code')
-      //   // 设置单选题、多选题和判断题的内容，但是提交前需要保证都已经被正确更新了
-      //   values.radios = this.radios
-      //   values.checks = this.checks
-      //   values.judges = this.judges
-      //   console.log('提交数据到后端')
-      //   this.confirmLoading = false
-      //   if (!errors) {
-      //     // 在这里把创建的考试的内容(存放在values中)提交给后端接口，需要的参数都已经封装成values这个json啦
-      //     console.log('values:', values)
-      //     // 把data中的question属性提交到后端，待写完后端接口.把前端的创建的题型提交到后端
-      //     examCreate(values).then(res => {
-      //       // 成功就跳转到结果页面
-      //       console.log(res)
-      //       if (res.code === 0) {
-      //         this.$notification.success({
-      //           message: '创建成功',
-      //           description: '考试创建成功'
-      //         })
-      //         // 关闭弹出框
-      //         this.visible = false
-      //         this.$emit('ok')
-      //       }
-      //     }).catch(err => {
-      //       // 失败就弹出警告消息
-      //       this.$notification.error({
-      //         message: '考试创建失败',
-      //         description: err.message
-      //       })
-      //     })
-      //   } else {
-      //     this.confirmLoading = false
-      //   }
-      // })
-      // last step，最后一步，代表完成考试编写，需要点击"完成"创建考试
       this.confirmLoading = true
-      console.log('提交数据到后端')
-      this.confirmLoading = false
-      this.exam.name = this.name
-      this.exam.elapse = this.elapse
-      this.exam.desc = this.desc
-      this.exam.avatar = this.avatar
-      this.exam.radioScore = this.radioScore
-      this.exam.checkScore = this.checkScore
-      this.exam.judgeScore = this.judgeScore
-      // 设置单选题、多选题和判断题的内容，但是提交前需要保证都已经被正确更新了
-      this.exam.radios = this.radios
-      this.exam.checks = this.checks
-      this.exam.judges = this.judges
-      console.log('radios:' + this.exam.radios)
-      console.log('checks:' + this.exam.checks)
-      console.log('judges:' + this.exam.judges)
-      const that = this
-      examUpdate(that.exam).then(res => {
-        // 成功就跳转到结果页面
-        console.log(res)
-        if (res.code === 0) {
-          that.$notification.success({
-            message: '更新成功',
-            description: '考试更新成功'
+      validateFields((errors, values) => { // values就是表单中校验的值，后面提交到后端接口时主要就是用这个values
+        values.avatar = $('#summernote-exam-avatar-create').summernote('code')
+        // 设置单选题、多选题和判断题的内容，但是提交前需要保证都已经被正确更新了
+        values.radios = this.radios
+        values.checks = this.checks
+        values.judges = this.judges
+        console.log('提交数据到后端')
+        this.confirmLoading = false
+        if (!errors) {
+          // 在这里把创建的考试的内容(存放在values中)提交给后端接口，需要的参数都已经封装成values这个json啦
+          console.log('values:', values)
+          // 把data中的question属性提交到后端，待写完后端接口.把前端的创建的题型提交到后端
+          examCreate(values).then(res => {
+            // 成功就跳转到结果页面
+            console.log(res)
+            if (res.code === 0) {
+              this.$notification.success({
+                message: '创建成功',
+                description: '考试创建成功'
+              })
+              // 关闭弹出框
+              this.visible = false
+              this.$emit('ok')
+            }
+          }).catch(err => {
+            // 失败就弹出警告消息
+            this.$notification.error({
+              message: '考试创建失败',
+              description: err.message
+            })
           })
-          // 关闭弹出框
-          that.visible = false
-          that.currentStep = 0
-          that.$emit('ok')
+        } else {
+          this.confirmLoading = false
         }
-      }).catch(err => {
-        // 失败就弹出警告消息
-        that.$notification.error({
-          message: '考试更新失败',
-          description: err.message
-        })
       })
+      // last step，最后一步，代表完成考试编写，需要点击"完成"创建考试
+      // this.confirmLoading = true
+      // console.log('提交数据到后端')
+      // this.confirmLoading = false
+      // this.exam.name = this.name
+      // this.exam.elapse = this.elapse
+      // this.exam.desc = this.desc
+      // this.exam.avatar = this.avatar
+      // this.exam.radioScore = this.radioScore
+      // this.exam.checkScore = this.checkScore
+      // this.exam.judgeScore = this.judgeScore
+      // // 设置单选题、多选题和判断题的内容，但是提交前需要保证都已经被正确更新了
+      // this.exam.radios = this.radios
+      // this.exam.checks = this.checks
+      // this.exam.judges = this.judges
+      // console.log('radios:' + this.exam.radios)
+      // console.log('checks:' + this.exam.checks)
+      // console.log('judges:' + this.exam.judges)
+      // const that = this
+      // examUpdate(that.exam).then(res => {
+      //   // 成功就跳转到结果页面
+      //   console.log(res)
+      //   if (res.code === 0) {
+      //     that.$notification.success({
+      //       message: '更新成功',
+      //       description: '考试更新成功'
+      //     })
+      //     // 关闭弹出框
+      //     that.visible = false
+      //     that.currentStep = 0
+      //     that.$emit('ok')
+      //   }
+      // }).catch(err => {
+      //   // 失败就弹出警告消息
+      //   that.$notification.error({
+      //     message: '考试更新失败',
+      //     description: err.message
+      //   })
+      // })
     },
     backward () {
       this.currentStep--
