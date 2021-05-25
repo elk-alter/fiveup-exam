@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
   @EqualsAndHashCode(callSuper = false)
-    @TableName("question_level")
+    @TableName("ex_question_level")
 public class QuestionLevel implements Serializable {
 
     private static final long serialVersionUID = 1L;

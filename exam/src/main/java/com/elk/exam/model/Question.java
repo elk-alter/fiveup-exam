@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
   @EqualsAndHashCode(callSuper = false)
-    @TableName("question")
+    @TableName("ex_question")
 public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
