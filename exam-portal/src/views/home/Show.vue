@@ -65,7 +65,7 @@ export default {
       window.open(url)
     },
     jumpWengjuan() {
-      const url = "http://test.uwis.cn:9495/info?username=" + this.getUsername() + "&password=" + this.getPassword();
+      const url = "http://1.117.175.93:9000/quesApi/#/login?username=" + this.getUsername() + "&password=" + this.getPassword();
       window.open(url)
     },
     jumpFenxi() {
