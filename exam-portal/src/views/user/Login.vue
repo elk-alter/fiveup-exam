@@ -90,6 +90,10 @@ export default {
       requiredTwoStepCaptcha: false,
       stepCaptchaVisible: false,
       form: this.$form.createForm(this),
+      LoginForm: {
+        username: "",
+        password: ""
+      },
       state: {
         time: 60,
         loginBtn: false,
