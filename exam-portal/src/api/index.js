@@ -26,6 +26,7 @@ const api = {
   // 获取问题列表，按照单选、多选和判断进行分类
   ExamQuestionTypeList: '/question/type/list',
   ExamCreate: '/exam/create',
+  ExamRandomCreate: '/exam/random',
   ExamUpdate: '/exam/update',
   ExamCardList: '/exam/card/list',
   // 获取考试详情

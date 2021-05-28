@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.elk.exam.common.enums.QuestionEnum;
+import com.elk.exam.mapper.QuestionMapper;
 import com.elk.exam.model.Exam;
 import com.elk.exam.mapper.ExamMapper;
 import com.elk.exam.model.Question;
@@ -34,6 +35,9 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private QuestionMapper questionMapper;
 
     @Override
     public List<ExamVo> getExamAll() {
@@ -204,6 +208,80 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
         exam.setExamScore(examScore);
         save(exam);
         return exam;
+    }
+
+    @Override
+    public Exam createRandom(ExamRandomVo examRandomVo, String userId) {
+        // 在线考试系统创建
+        Exam exam = new Exam();
+        BeanUtils.copyProperties(examRandomVo, exam);
+        exam.setExamId(IdUtil.simpleUUID());
+        exam.setExamCreatorId(userId);
+        exam.setCreateTime(new Date());
+        exam.setUpdateTime(new Date());
+        // Todo:这两个日志后面是要在前端传入的，这里暂时定为当前日期
+        exam.setExamStartDate(new Date());
+        exam.setExamEndDate(new Date());
+        exam.setExamScoreCheck(10);
+        exam.setExamScoreJudge(10);
+        exam.setExamScoreRadio(10);
+        String radioIdsStr = "";
+        String checkIdsStr = "";
+        String judgeIdsStr = "";
+        List<ExamQuestionSelectVo> radios = getRandomQuestion(QuestionEnum.RADIO, 4);
+        List<ExamQuestionSelectVo> checks = getRandomQuestion(QuestionEnum.CHECK, 3);
+        List<ExamQuestionSelectVo> judges = getRandomQuestion(QuestionEnum.JUDGE, 3);
+        int radioCnt = 0, checkCnt = 0, judgeCnt = 0;
+        for (ExamQuestionSelectVo radio : radios) {
+            if (radio.getChecked()) {
+                radioIdsStr += radio.getQuestionId() + "-";
+                radioCnt++;
+            }
+        }
+        System.out.println("radioIdsStr:"+radioIdsStr);
+        radioIdsStr = replaceLastSeparator(radioIdsStr);
+        for (ExamQuestionSelectVo check : checks) {
+            if (check.getChecked()) {
+                checkIdsStr += check.getQuestionId() + "-";
+                checkCnt++;
+            }
+        }
+        checkIdsStr = replaceLastSeparator(checkIdsStr);
+        for (ExamQuestionSelectVo judge : judges) {
+            if (judge.getChecked()) {
+                judgeIdsStr += judge.getQuestionId() + "-";
+                judgeCnt++;
+            }
+        }
+        judgeIdsStr = replaceLastSeparator(judgeIdsStr);
+        exam.setExamQuestionIds(radioIdsStr + "-" + checkIdsStr + "-" + judgeIdsStr);
+        // 设置各个题目的id
+        exam.setExamQuestionIdsRadio(radioIdsStr);
+        exam.setExamQuestionIdsCheck(checkIdsStr);
+        exam.setExamQuestionIdsJudge(judgeIdsStr);
+
+        // 计算总分数
+        int examScore = radioCnt * exam.getExamScoreRadio() + checkCnt * exam.getExamScoreCheck() + judgeCnt * exam.getExamScoreJudge();
+        exam.setExamScore(examScore);
+        save(exam);
+        return exam;
+    }
+
+    private List<ExamQuestionSelectVo> getRandomQuestion(QuestionEnum check, int i) {
+        List<ExamQuestionSelectVo> list = new ArrayList<>();
+
+        QueryWrapper<Question> queryWrapper= new QueryWrapper<>();
+        queryWrapper.lambda().eq(Question::getQuestionTypeId, check.getId());
+        List<Question> questions = questionMapper.getRandomList(queryWrapper, i);
+
+        for (Question question : questions) {
+            ExamQuestionSelectVo e = new ExamQuestionSelectVo();
+            e.setQuestionId(question.getQuestionId());
+            e.setQuestionName(question.getQuestionName());
+            e.setChecked(true);
+            list.add(e);
+        }
+        return list;
     }
 
     private String replaceLastSeparator(String str) {

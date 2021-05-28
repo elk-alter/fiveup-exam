@@ -40,6 +40,14 @@ public interface ExamService extends IService<Exam> {
     Exam create(ExamCreateVo examCreateVo, String userId);
 
     /**
+     * 根据前端组装的参数进行考试创建 随机问题
+     * @param examRandomVo 考试对象
+     * @param userId 用户id
+     * @return 随机的考试
+     */
+    Exam createRandom(ExamRandomVo examRandomVo, String userId);
+
+    /**
      * 更新考试
      *
      * @param examVo 获取所有考试的接口中返回的考试信息结构

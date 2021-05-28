@@ -68,6 +68,22 @@ public class ExamController {
         return resultVO;
     }
 
+    @PostMapping("/random")
+    @ApiOperation("创建考试")
+    ResultVO<Exam> randomExam(@RequestBody ExamRandomVo examRandomVo) {
+        // 从前端传参数过来，在这里完成考试的入库
+        ResultVO<Exam> resultVO;
+        String userId = (String) redisService.get("id");
+        try {
+            Exam exam = examService.createRandom(examRandomVo, userId);
+            resultVO = new ResultVO<>(0, "创建考试成功", exam);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO<>(-1, "创建考试失败", null);
+        }
+        return resultVO;
+    }
+
     @PostMapping("/update")
     @ApiOperation("更新考试")
     ResultVO<Exam> updateExam(@RequestBody ExamVo examVo) {

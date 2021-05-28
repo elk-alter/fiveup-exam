@@ -2,7 +2,8 @@
   <a-card :bordered="false">
     <div id="toolbar">
       <a-button type="primary" icon="plus" @click="$refs.createExamModal.create()">新建</a-button>&nbsp;
-      <a-button type="primary" icon="reload" @click="loadAll()">刷新</a-button>
+      <a-button type="primary" icon="reload" @click="loadAll()">刷新</a-button>&nbsp;
+      <a-button type="primary" icon="plus" @click="$refs.randomModal.create()">自动组卷</a-button>
     </div>
     <BootstrapTable
       ref="table"
@@ -16,6 +17,8 @@
     <exam-edit-modal ref="editExamModal" @ok="handleOk" />
     <!--  更新考试封面图片  -->
     <update-avatar-modal ref="updateAvatarModal" @ok="handleOk" />
+    <!--  自动组卷-->
+    <exam-random-modal ref="randomModal" @ok="handleOk" />
   </a-card>
 </template>
 
@@ -25,10 +28,12 @@ import { getExamAll } from '../../api/exam'
 import StepByStepExamModal from './modules/StepByStepExamModal'
 import ExamEditModal from './modules/ExamEditModal'
 import UpdateAvatarModal from '@views/list/modules/UpdateAvatarModal'
+import ExamRandomModal from './modules/ExamRandomModal'
 
 export default {
   name: 'ExamTableList',
   components: {
+    ExamRandomModal,
     UpdateAvatarModal,
     ExamEditModal,
     StepByStepExamModal

@@ -91,6 +91,15 @@ export function examCreate (parameter) {
   })
 }
 
+export function examRandomCreate (parameter) {
+  console.log(parameter)
+  return axios({
+    url: api.ExamRandomCreate,
+    method: 'post',
+    data: parameter
+  })
+}
+
 export function examUpdate (parameter) {
   console.log(parameter)
   return axios({
