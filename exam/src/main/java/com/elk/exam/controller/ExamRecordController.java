@@ -83,6 +83,20 @@ public class ExamRecordController {
         return resultVO;
     }
 
+    @RequestMapping("/level/{levelId}")
+    @ApiOperation("获得等级")
+    ResultVO<String> getExamRecordLevel(@PathVariable int levelId) {
+        ResultVO<String> resultVO;
+        try {
+            String recordLevel = recordService.getRecordLevel(levelId);
+            resultVO = new ResultVO<>(0, "获取考试记录详情成功", recordLevel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO<>(-1, "获取考试记录详情失败", null);
+        }
+        return resultVO;
+    }
+
     @GetMapping("/detail/{recordId}")
     @ApiOperation("根据考试记录id获取考试记录详情")
     ResultVO<RecordDetailVo> getExamRecordDetail(@PathVariable String recordId) {

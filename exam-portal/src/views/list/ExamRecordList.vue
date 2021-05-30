@@ -17,6 +17,10 @@
           </div>
           <div class="list-content">
             <div class="list-content-item">
+              <span>等级</span>
+              <p>{{getRecordLevel(item.examRecord.examResultLevel)}}</p>
+            </div>
+            <div class="list-content-item">
               <span>Owner</span>
               <p>{{ item.user.userUsername }}</p>
             </div>
@@ -71,6 +75,13 @@ export default {
           record: record
         }
       })
+    },
+    getRecordLevel(id) {
+      if (id === 1) return '优秀'
+      if (id === 2) return '良好'
+      if (id === 3) return '一般'
+      if (id === 4) return '合格'
+      if (id === 5) return '不合格'
     }
   },
   mounted () {

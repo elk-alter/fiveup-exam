@@ -181,6 +181,16 @@ export function getExamPercentage (recordId) {
   })
 }
 
+export function getExamLevel (levelId) {
+  return axios({
+    url: api.ExamLevel + levelId,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
 export function getRecord (recordId) {
   return axios({
     url: api.ExamRecord + recordId,

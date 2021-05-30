@@ -3,16 +3,10 @@ package com.elk.exam.service.impl;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.elk.exam.model.Exam;
-import com.elk.exam.model.ExamRecord;
+import com.elk.exam.model.*;
 import com.elk.exam.mapper.ExamRecordMapper;
-import com.elk.exam.model.Question;
-import com.elk.exam.model.User;
-import com.elk.exam.service.ExamRecordService;
+import com.elk.exam.service.*;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.elk.exam.service.ExamService;
-import com.elk.exam.service.QuestionService;
-import com.elk.exam.service.UserService;
 import com.elk.exam.vo.ExamDetailVo;
 import com.elk.exam.vo.ExamRecordVo;
 import com.elk.exam.vo.RecordDetailVo;
@@ -42,6 +36,9 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ExamRecordLevelService examRecordLevelService;
 
     @Override
     public ExamRecord judge(String userId, String examId, HashMap<String, List<String>> answersMap) {
@@ -122,6 +119,21 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
         examRecord.setExamJoinerId(userId);
         examRecord.setExamJoinDate(new Date());
         examRecord.setExamJoinScore(totalScore);
+        // 判断不及格和情况
+        int examScore = exam.getExamScore();
+        double level = totalScore*1.0 / examScore;
+        if (level < 0.6) {
+            examRecord.setExamResultLevel(5);
+        } else if (level < 0.7) {
+            examRecord.setExamResultLevel(4);
+        } else if (level < 0.8) {
+            examRecord.setExamResultLevel(3);
+        } else if (level < 0.9) {
+            examRecord.setExamResultLevel(2);
+        } else if (level < 0.95) {
+            examRecord.setExamResultLevel(1);
+        }
+
         save(examRecord);
         return examRecord;
     }
@@ -277,5 +289,12 @@ public class ExamRecordServiceImpl extends ServiceImpl<ExamRecordMapper, ExamRec
         System.out.println(scores);
         System.out.println(scores.size() + " " + level);
         return level*1.0 / scores.size();
+    }
+
+    @Override
+    public String getRecordLevel(int id) {
+        ExamRecordLevel level = examRecordLevelService.getById(id);
+
+        return level.getExamRecordLevelDescription();
     }
 }

@@ -42,7 +42,7 @@ export default {
         {
           title: '头像',
           field: 'avatar',
-          width: 50,
+          width: 20,
           formatter: (value, row) => {
             return '<div class="user-avatar">' + value + '</div>'
           },
@@ -55,7 +55,6 @@ export default {
         {
           title: '用户名',
           field: 'username',
-          width: 200,
           formatter: (value, row) => {
             return '<div class="username" style="height: 100%;width: 100%">' + value + '</div>'
           },
@@ -68,7 +67,6 @@ export default {
         {
           title: '昵称',
           field: 'nickname',
-          width: 200,
           formatter: (value, row) => {
             return '<div class="nickname">' + value + '</div>'
           },

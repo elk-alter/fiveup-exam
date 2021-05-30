@@ -74,4 +74,10 @@ public interface ExamRecordService extends IService<ExamRecord> {
      */
     double getRecordPercentage(String recordId);
 
+    /**
+     * 获得等级
+     * @param id 记录
+     * @return 百分比
+     */
+    String getRecordLevel(int id);
 }

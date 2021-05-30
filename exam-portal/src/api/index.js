@@ -39,6 +39,7 @@ const api = {
   ExamRecordListByExam: '/record/listByExam/',
   recordDetail: '/record/detail/',
   ExamPercentage: '/record/percentage/',
+  ExamLevel: '/record/level/',
   ExamRecord: '/record/'
 }
 export default api
