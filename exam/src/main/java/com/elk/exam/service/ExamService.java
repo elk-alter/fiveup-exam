@@ -70,4 +70,11 @@ public interface ExamService extends IService<Exam> {
      * @return 考试详情的封装的VO对象
      */
     ExamDetailVo getExamDetail(String id);
+
+    /**
+     * 获取考试分析
+     * @param examId
+     * @return
+     */
+    List<ExamAnalVo> getExamAnalList(String examId);
 }

@@ -34,3 +34,12 @@ export function userUpdate (parameter) {
     data: parameter
   })
 }
+
+export function userInfo (parameter) {
+  console.log(parameter)
+  return axios({
+    url: api.UserInfo,
+    method: 'post',
+    data: parameter
+  })
+}

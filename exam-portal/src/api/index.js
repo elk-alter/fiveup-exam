@@ -6,14 +6,15 @@ const api = {
   twoStepCode: '/auth/2step-code',
   SendSms: '/account/sms',
   SendSmsErr: '/account/sms_err',
-  // get my info
-  UserInfo: '/user/info',
+
 
   // 下面是自己的用户认证的接口
   UserRegister: '/user/register',
   UserLogin: '/user/login',
   UserList: '/user/list',
   UserUpdate: '/user/update',
+  // get my info
+  UserInfo: '/user/info',
 
   // 考试的接口
   ExamQuestionList: '/question/list',
@@ -39,6 +40,7 @@ const api = {
   ExamRecordListByExam: '/record/listByExam/',
   recordDetail: '/record/detail/',
   ExamPercentage: '/record/percentage/',
+  ExamAnal: '/exam/anal/',
   ExamLevel: '/record/level/',
   ExamRecord: '/record/'
 }

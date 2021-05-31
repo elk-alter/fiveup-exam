@@ -11,6 +11,7 @@
     />
     <!-- 这里的详情需要传进去  -->
     <record-view-modal ref="recordViewModal" @ok="handleOk" />
+    <exam-pie-modal ref="showPieModal" @ok="handleOk" />
   </a-card>
 </template>
 
@@ -18,10 +19,12 @@
 import '@/plugins/bootstrap-table'
 import { getExamAll } from '@/api/exam'
 import RecordViewModal from './modules/RecordViewModal'
+import ExamPieModal from './modules/ExamPieModal'
 
 export default {
   name: 'ExamTableList',
   components: {
+    ExamPieModal,
     RecordViewModal
   },
   data () {
@@ -59,12 +62,12 @@ export default {
           field: 'action',
           width: '150px',
           formatter: (value, row) => {
-            return '<button type="button" class="btn btn-success analytics-exam">分析</button>' +
+            return '<button type="button" class="btn btn-success anal-exam">分析</button>' +
                 '&nbsp;&nbsp;' +
                 '<button type="button" class="btn btn-success view-exam">记录</button>'
           },
           events: {
-            'click .analytics-exam': function (e, value, row, index) {
+            'click .anal-exam': function (e, value, row, index) {
               that.handleAnal(row)
             },
             'click .view-exam': function (e, value, row, index) {
@@ -99,10 +102,12 @@ export default {
       // Todo:修改考试信息和下面的题目，弹出一个可修改的输入框，实际上复用创建题目的模态框即可，还没做完
       console.log('开始编辑啦')
       console.log(record.id)
-      this.$refs.recordViewModal.edit(record.id)
+      this.$refs.recordViewModal.view(record.id)
     },
     handleAnal (record) {
-
+      console.log('开始分析啦')
+      console.log(record.id)
+      this.$refs.showPieModal.anal(record.id);
     },
     handleOk () {
       this.loadAll()

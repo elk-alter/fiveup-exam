@@ -69,7 +69,7 @@ public class ExamController {
     }
 
     @PostMapping("/random")
-    @ApiOperation("创建考试")
+    @ApiOperation("自动创建考试")
     ResultVO<Exam> randomExam(@RequestBody ExamRandomVo examRandomVo) {
         // 从前端传参数过来，在这里完成考试的入库
         ResultVO<Exam> resultVO;
@@ -111,6 +111,21 @@ public class ExamController {
         } catch (Exception e) {
             e.printStackTrace();
             resultVO = new ResultVO<>(-1, "获取考试列表卡片失败", null);
+        }
+        return resultVO;
+    }
+
+    @GetMapping("/anal/{examId}")
+    @ApiOperation("获取考试分析")
+    ResultVO<List<ExamAnalVo>> getExamAnal(@PathVariable String examId) {
+        // 获取考试列表卡片
+        ResultVO<List<ExamAnalVo>> resultVO;
+        try {
+            List<ExamAnalVo> examAnalVoList = examService.getExamAnalList(examId);
+            resultVO = new ResultVO<>(0, "获取考试分析成功", examAnalVoList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultVO = new ResultVO<>(-1, "获取考试分析失败", null);
         }
         return resultVO;
     }

@@ -2,17 +2,23 @@ package com.elk.exam.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.log.Log;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.elk.exam.common.enums.QuestionEnum;
+import com.elk.exam.common.enums.RecordEnum;
 import com.elk.exam.mapper.QuestionMapper;
 import com.elk.exam.model.Exam;
 import com.elk.exam.mapper.ExamMapper;
+import com.elk.exam.model.ExamRecord;
 import com.elk.exam.model.Question;
+import com.elk.exam.service.ExamRecordService;
 import com.elk.exam.service.ExamService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.elk.exam.service.QuestionService;
 import com.elk.exam.service.UserService;
 import com.elk.exam.vo.*;
+import io.swagger.models.auth.In;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +34,7 @@ import java.util.*;
  * @since 2021-04-17
  */
 @Service
+@Slf4j
 public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements ExamService {
 
     @Autowired
@@ -35,6 +42,9 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private ExamRecordService recordService;
 
     @Autowired
     private QuestionMapper questionMapper;
@@ -68,6 +78,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
                     Arrays.asList(exam.getExamQuestionIdsRadio().split("-"))
             );
             for (Question question : radioQuestionList) {
+                if (question == null) break;
                 ExamQuestionSelectVo radioQuestionVo = new ExamQuestionSelectVo();
                 BeanUtils.copyProperties(question, radioQuestionVo);
                 radioQuestionVo.setChecked(true); // 考试中的问题肯定被选中的
@@ -81,6 +92,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
                     Arrays.asList(exam.getExamQuestionIdsCheck().split("-"))
             );
             for (Question question : checkQuestionList) {
+                if (question == null) break;
                 ExamQuestionSelectVo checkQuestionVo = new ExamQuestionSelectVo();
                 BeanUtils.copyProperties(question, checkQuestionVo);
                 checkQuestionVo.setChecked(true); // 考试中的问题肯定被选中的
@@ -88,12 +100,14 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
             }
             examVo.setExamQuestionSelectVoCheckList(checkQuestionVoList);
 
-            // 获取所有多选题列表，并赋值到ExamVo的属性ExamQuestionSelectVoJudgeList上
+
+            // 获取所有判断题列表，并赋值到ExamVo的属性ExamQuestionSelectVoJudgeList上
             List<ExamQuestionSelectVo> judgeQuestionVoList = new ArrayList<>();
             List<Question> judgeQuestionList = questionService.listQuestionByIds(
                     Arrays.asList(exam.getExamQuestionIdsJudge().split("-"))
             );
             for (Question question : judgeQuestionList) {
+                if (question == null) break;
                 ExamQuestionSelectVo judgeQuestionVo = new ExamQuestionSelectVo();
                 BeanUtils.copyProperties(question, judgeQuestionVo);
                 judgeQuestionVo.setChecked(true); // 考试中的问题肯定被选中的
@@ -228,9 +242,11 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
         String radioIdsStr = "";
         String checkIdsStr = "";
         String judgeIdsStr = "";
-        List<ExamQuestionSelectVo> radios = getRandomQuestion(QuestionEnum.RADIO, 4);
-        List<ExamQuestionSelectVo> checks = getRandomQuestion(QuestionEnum.CHECK, 3);
-        List<ExamQuestionSelectVo> judges = getRandomQuestion(QuestionEnum.JUDGE, 3);
+
+
+        List<ExamQuestionSelectVo> radios = getRandomQuestion(QuestionEnum.RADIO, 4, examRandomVo.getCategoryList());
+        List<ExamQuestionSelectVo> checks = getRandomQuestion(QuestionEnum.CHECK, 3, examRandomVo.getCategoryList());
+        List<ExamQuestionSelectVo> judges = getRandomQuestion(QuestionEnum.JUDGE, 3, examRandomVo.getCategoryList());
         int radioCnt = 0, checkCnt = 0, judgeCnt = 0;
         for (ExamQuestionSelectVo radio : radios) {
             if (radio.getChecked()) {
@@ -267,11 +283,11 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
         return exam;
     }
 
-    private List<ExamQuestionSelectVo> getRandomQuestion(QuestionEnum check, int i) {
+    private List<ExamQuestionSelectVo> getRandomQuestion(QuestionEnum check, int i, List<Integer> categoryList) {
         List<ExamQuestionSelectVo> list = new ArrayList<>();
 
         QueryWrapper<Question> queryWrapper= new QueryWrapper<>();
-        queryWrapper.lambda().eq(Question::getQuestionTypeId, check.getId());
+        queryWrapper.lambda().eq(Question::getQuestionTypeId, check.getId()).in(Question::getQuestionCategoryId, categoryList);
         List<Question> questions = questionMapper.getRandomList(queryWrapper, i);
 
         for (Question question : questions) {
@@ -367,4 +383,50 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam> implements Ex
         examDetailVo.setJudgeIds(exam.getExamQuestionIdsJudge().split("-"));
         return examDetailVo;
     }
+
+    @Override
+    public List<ExamAnalVo> getExamAnalList(String examId) {
+        List<ExamAnalVo> list = new ArrayList<>();
+
+        for (int i = 1; i < 6; i++) {
+            QueryWrapper<ExamRecord> queryWrapper = new QueryWrapper<>();
+            queryWrapper.lambda().eq(ExamRecord::getExamId, examId).eq(ExamRecord::getExamResultLevel, i);
+            List<ExamRecord> recordList = recordService.list(queryWrapper);
+            if (recordList.size() != 0) {
+                ExamAnalVo analVo = new ExamAnalVo();
+                switch (i) {
+                    case 1: {
+                        analVo.setType(RecordEnum.Excellent.getType());
+                        analVo.setNums(recordList.size());
+                        break;
+                    }
+                    case 2: {
+                        analVo.setType(RecordEnum.Good.getType());
+                        analVo.setNums(recordList.size());
+                        break;
+                    }
+                    case 3: {
+                        analVo.setType(RecordEnum.Normal.getType());
+                        analVo.setNums(recordList.size());
+                        break;
+                    }
+                    case 4: {
+                        analVo.setType(RecordEnum.Pass.getType());
+                        analVo.setNums(recordList.size());
+                        break;
+                    }
+                    case 5: {
+                        analVo.setType(RecordEnum.Fail.getType());
+                        analVo.setNums(recordList.size());
+                        break;
+                    }
+                }
+                list.add(analVo);
+            }
+        }
+
+        log.debug(list.toString());
+        return list;
+    }
+
 }

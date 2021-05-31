@@ -7,19 +7,19 @@
           <a-form-item
             label="昵称"
           >
-            <a-input placeholder="给自己起个名字" />
+            <a-input placeholder="给自己起个名字" :value=this.form.name />
           </a-form-item>
           <a-form-item
-            label="Bio"
+            label="签名"
           >
-            <a-textarea rows="4" placeholder="You are not alone."/>
+            <a-textarea rows="4" placeholder="You are not alone." :value="this.form.welcome"/>
           </a-form-item>
 
           <a-form-item
             label="电子邮件"
             :required="false"
           >
-            <a-input placeholder="exp@admin.com"/>
+            <a-input placeholder="exp@admin.com" :value="this.form.email"/>
           </a-form-item>
           <a-form-item
             label="登录密码"
@@ -29,14 +29,14 @@
           </a-form-item>
 
           <a-form-item>
-            <a-button type="primary">提交</a-button>
+            <a-button type="primary" @click="updateUserInfo()">提交</a-button>
             <a-button style="margin-left: 8px">保存</a-button>
           </a-form-item>
         </a-form>
 
       </a-col>
       <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
-        <div class="ant-upload-preview" @click="$refs.modal.edit(1)" >
+        <div class="ant-upload-preview" @click="$refs.modal.edit(option.img)" >
           <a-icon type="cloud-upload-o" class="upload-icon"/>
           <div class="mask">
             <a-icon type="plus" />
@@ -46,15 +46,13 @@
       </a-col>
 
     </a-row>
-
-    <avatar-modal ref="modal">
-
-    </avatar-modal>
+    <avatar-modal ref="modal"/>
   </div>
 </template>
 
 <script>
 import AvatarModal from './AvatarModal'
+import { userInfo, userUpdate } from '../../../api/user'
 
 export default {
   components: {
@@ -78,11 +76,35 @@ export default {
         // 开启宽度和高度比例
         fixed: true,
         fixedNumber: [1, 1]
-      }
+      },
+
+      form: [],
+      user: []
     }
   },
+  created () {
+    this.getUserInfo()
+  },
   methods: {
-
+    getUserInfo() {
+      userInfo().then(res => {
+        this.form = res.data
+        this.option.img = res.data.avatar
+        console.log(this.form)
+      })
+    },
+    updateUserInfo() {
+      this.user.id = this.form.id
+      this.user.nikename = this.form.name
+      this.user.email = this.form.email
+      this.user.description = this.form.welcome
+      if (this.form.password !== "") this.user.password = this.form.password
+      console.log(this.user)
+      userUpdate(this.user).then(res => {
+        this.form = res.data
+        this.option.img = res.data.avatar
+      })
+    }
   }
 }
 </script>

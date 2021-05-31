@@ -1,5 +1,5 @@
 <template>
-  <a-modal title="题目信息" :width="1000" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel">
+  <a-modal title="考试记录" :width="1000" :visible="visible" :confirmLoading="confirmLoading" @cancel="handleCancel">
     <a-spin :spinning="confirmLoading">
 <!--      <a-card style="margin-top: 24px" :bordered="false" title="参加过的考试">-->
 <!--        <div slot="extra">-->
@@ -122,7 +122,7 @@ export default {
       // 和点击考试卡片效果一样，跳转到考试页面，里面有所有题目的情况，相当于就是详情了
       window.open(routeUrl.href, '_blank')
     },
-    edit (examId) {
+    view (examId) {
       this.visible = true
       // 把当前的记录赋值到data中的变量
       // 从后端数据获取考试列表，适配前端卡片

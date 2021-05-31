@@ -23,6 +23,26 @@
             分钟
           </a-form-item>
           <a-form-item
+              label="题目类别"
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol">
+            <a-select
+                v-decorator="[
+          'categories',
+          {
+            rules: [
+              { required: true, message: '请选择题目类别，可多选', type: 'array' },
+            ],
+          },
+        ]"
+                mode="multiple"
+                placeholder="请选择题目类别，可多选"
+            >
+              <a-select-option v-for="category in categoryList" :value="category.id" :key="category.id"> {{ category.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+          <a-form-item
               label="考试简述"
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
@@ -50,7 +70,7 @@
 <script>
 import '../../../plugins/summernote'
 import $ from 'jquery'
-import { examRandomCreate } from '../../../api/exam'
+import { examRandomCreate, getQuestionSelection } from '../../../api/exam'
 
 export default {
   name: 'ExamRandomModal',
@@ -67,8 +87,8 @@ export default {
       },
       visible: false,
       confirmLoading: false,
-      currentStep: 0,
       mdl: {},
+      categoryList: [],
       form: this.$form.createForm(this),
     }
   },
@@ -76,6 +96,12 @@ export default {
     this.initSummernote()
   },
   methods: {
+    initCate() {
+      getQuestionSelection().then(res => {
+        this.categoryList = res.data.categories
+        console.log(this.categoryList)
+      })
+    },
     initSummernote () {
       console.log('初始化富文本插件')
       $('#summernote-exam-avatar-create').summernote({
@@ -94,6 +120,7 @@ export default {
       })
     },
     create () {
+      this.initCate()
       this.visible = true
     },
     popupScroll () {
@@ -111,6 +138,7 @@ export default {
         values.avatar = $('#summernote-exam-avatar-create').summernote('code')
 
         console.log('提交数据到后端')
+        console.log(values)
         this.confirmLoading = false
         if (!errors) {
           // 在这里把创建的考试的内容(存放在values中)提交给后端接口，需要的参数都已经封装成values这个json啦

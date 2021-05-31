@@ -28,4 +28,7 @@ public class UserVo {
 
     @JsonProperty("phone")
     private String userPhone;
+
+    @JsonProperty("password")
+    private String userPassword;
 }

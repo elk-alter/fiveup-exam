@@ -191,6 +191,16 @@ export function getExamLevel (levelId) {
   })
 }
 
+export function getExamAnal (examId) {
+  return axios({
+    url: api.ExamAnal + examId,
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8'
+    }
+  })
+}
+
 export function getRecord (recordId) {
   return axios({
     url: api.ExamRecord + recordId,
