@@ -7,23 +7,24 @@
           <a-form-item
             label="昵称"
           >
-            <a-input placeholder="给自己起个名字" :value=this.form.name />
+            <a-input placeholder="给自己起个名字" v-model="form.name" />
           </a-form-item>
           <a-form-item
             label="签名"
           >
-            <a-textarea rows="4" placeholder="You are not alone." :value="this.form.welcome"/>
+            <a-textarea rows="4" placeholder="You are not alone." v-model="form.welcome"/>
           </a-form-item>
 
           <a-form-item
             label="电子邮件"
             :required="false"
           >
-            <a-input placeholder="exp@admin.com" :value="this.form.email"/>
+            <a-input placeholder="exp@admin.com" v-model="form.email"/>
           </a-form-item>
           <a-form-item
             label="登录密码"
             :required="false"
+            hidden
           >
             <a-input placeholder="密码"/>
           </a-form-item>
@@ -36,7 +37,7 @@
 
       </a-col>
       <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
-        <div class="ant-upload-preview" @click="$refs.modal.edit(option.img)" >
+        <div class="ant-upload-preview" @click="$refs.modal.edit(form)" >
           <a-icon type="cloud-upload-o" class="upload-icon"/>
           <div class="mask">
             <a-icon type="plus" />
@@ -46,13 +47,13 @@
       </a-col>
 
     </a-row>
-    <avatar-modal ref="modal"/>
+    <avatar-modal ref="modal" @ok="handleOk"/>
   </div>
 </template>
 
 <script>
 import AvatarModal from './AvatarModal'
-import { userInfo, userUpdate } from '../../../api/user'
+import { userInfo, userUpdate } from '@api/user'
 
 export default {
   components: {
@@ -78,11 +79,11 @@ export default {
         fixedNumber: [1, 1]
       },
 
-      form: [],
-      user: []
+      form: {},
+      user: {}
     }
   },
-  created () {
+  created() {
     this.getUserInfo()
   },
   methods: {
@@ -101,9 +102,11 @@ export default {
       if (this.form.password !== "") this.user.password = this.form.password
       console.log(this.user)
       userUpdate(this.user).then(res => {
-        this.form = res.data
-        this.option.img = res.data.avatar
+        this.$message.success('更新信息成功')
       })
+    },
+    handleOk() {
+      this.getUserInfo()
     }
   }
 }

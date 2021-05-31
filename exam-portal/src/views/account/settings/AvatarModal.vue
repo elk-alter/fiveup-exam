@@ -34,6 +34,8 @@
   </a-modal>
 </template>
 <script>
+import { userUpdate } from '@api/user'
+
 export default {
   components: {
   },
@@ -55,13 +57,16 @@ export default {
         // 开启宽度和高度比例
         fixed: true,
         fixedNumber: [1, 1]
-      }
+      },
+      form: {},
+      user: {}
     }
   },
   methods: {
-    edit (avatar) {
+    edit (form) {
       this.visible = true
-      this.option.img = avatar
+      this.form = form
+      this.option.img = form.avatar
       /* 获取原始头像 */
     },
     close () {
@@ -76,9 +81,11 @@ export default {
 
       vm.confirmLoading = true
       setTimeout(() => {
+        this.updateUserInfo()
         vm.confirmLoading = false
         vm.close()
         vm.$message.success('上传头像成功')
+        this.$emit('ok')
       }, 2000)
     },
     showPre() {
@@ -94,6 +101,14 @@ export default {
       console.log(e);
       this.$message.error('Click on No');
     },
+    updateUserInfo() {
+      this.user.id = this.form.id
+      this.user.avatar = this.option.img
+      console.log(this.user)
+      userUpdate(this.user).then(res => {
+        this.$message.success('更新信息成功')
+      })
+    }
   }
 }
 </script>
@@ -111,8 +126,8 @@ export default {
     overflow: hidden;
 
     img {
-      width: 100%;
-      height: 100%;
+      max-width: 180px;
+      max-height: 180px;
     }
   }
 </style>
