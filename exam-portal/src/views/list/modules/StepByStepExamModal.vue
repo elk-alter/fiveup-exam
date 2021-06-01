@@ -100,6 +100,7 @@
           >
             <!-- 单选 -->
             <a-select
+                show-search
               mode="multiple"
               :size="size"
               placeholder="请选择单选题"
@@ -121,6 +122,7 @@
           >
             <!-- 多选 -->
             <a-select
+                show-search
               mode="multiple"
               :size="size"
               placeholder="请选择多选题"
@@ -142,6 +144,7 @@
           >
             <!-- 判断 -->
             <a-select
+                show-search
               mode="multiple"
               :size="size"
               placeholder="请选择判断题"

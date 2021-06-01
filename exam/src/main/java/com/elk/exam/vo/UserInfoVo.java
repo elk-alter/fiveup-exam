@@ -3,6 +3,8 @@ package com.elk.exam.vo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class UserInfoVo {
 
@@ -37,4 +39,7 @@ public class UserInfoVo {
 
     @JsonProperty("role")
     private RoleVo roleVo;
+
+    @JsonProperty("snumber")
+    private Integer sNumber;
 }

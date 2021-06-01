@@ -14,7 +14,7 @@
   "dependencies": {
     "@antv/g2plot": "^2.3.19",
     "@fortawesome/fontawesome-free": "^5.12.1",
-    "ant-design-vue": "~1.7.4",
+    "ant-design-vue": "~1.7.5",
     "axios": "^0.19.0",
     "bootstrap": "^4.1.1",
     "bootstrap-table": "1.18.0",

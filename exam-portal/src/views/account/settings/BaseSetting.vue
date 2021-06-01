@@ -22,6 +22,12 @@
             <a-input placeholder="exp@admin.com" v-model="form.email"/>
           </a-form-item>
           <a-form-item
+              label="绑定学号"
+              :required="false"
+          >
+            <a-input placeholder="例如:2017081142" v-model="form.snumber"/>
+          </a-form-item>
+          <a-form-item
             label="登录密码"
             :required="false"
             hidden
@@ -99,6 +105,7 @@ export default {
       this.user.nikename = this.form.name
       this.user.email = this.form.email
       this.user.description = this.form.welcome
+      this.user.snumber = this.form.snumber
       if (this.form.password !== "") this.user.password = this.form.password
       console.log(this.user)
       userUpdate(this.user).then(res => {

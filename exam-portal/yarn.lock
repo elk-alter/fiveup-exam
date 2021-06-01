@@ -1320,7 +1320,7 @@
 
 "@simonwep/pickr@~1.7.0":
   version "1.7.4"
-  resolved "https://registry.npm.taobao.org/@simonwep/pickr/download/@simonwep/pickr-1.7.4.tgz?cache=0&sync_timestamp=1607168186154&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40simonwep%2Fpickr%2Fdownload%2F%40simonwep%2Fpickr-1.7.4.tgz#b14fcd945890388b870cd6db4d6c78d531f25141"
+  resolved "https://registry.nlark.com/@simonwep/pickr/download/@simonwep/pickr-1.7.4.tgz?cache=0&sync_timestamp=1620897267612&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40simonwep%2Fpickr%2Fdownload%2F%40simonwep%2Fpickr-1.7.4.tgz#b14fcd945890388b870cd6db4d6c78d531f25141"
   integrity sha1-sU/NlFiQOIuHDNbbTWx41THyUUE=
   dependencies:
     core-js "^3.6.5"
@@ -2221,10 +2221,10 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
-ant-design-vue@~1.7.4:
-  version "1.7.4"
-  resolved "https://registry.nlark.com/ant-design-vue/download/ant-design-vue-1.7.4.tgz#854e90985dc0fa9ccc6d681c104560c00eaaf855"
-  integrity sha1-hU6QmF3A+pzMbWgcEEVgwA6q+FU=
+ant-design-vue@~1.7.5:
+  version "1.7.5"
+  resolved "https://registry.nlark.com/ant-design-vue/download/ant-design-vue-1.7.5.tgz#e7ed04cb358adc56be02c7453d2db026d2c405e3"
+  integrity sha1-5+0EyzWK3Fa+AsdFPS2wJtLEBeM=
   dependencies:
     "@ant-design/icons" "^2.1.1"
     "@ant-design/icons-vue" "^2.0.0"
@@ -3854,9 +3854,9 @@ core-js@^3.6.0:
   integrity sha1-BdrGqnDApK2EImH4lXuWHTbriSY=
 
 core-js@^3.6.5:
-  version "3.12.0"
-  resolved "https://registry.nlark.com/core-js/download/core-js-3.12.0.tgz?cache=0&sync_timestamp=1620292396464&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.12.0.tgz#62bac86f7d7f087d40dba3e90a211c2c3c8559ea"
-  integrity sha1-YrrIb31/CH1A26PpCiEcLDyFWeo=
+  version "3.13.1"
+  resolved "https://registry.nlark.com/core-js/download/core-js-3.13.1.tgz?cache=0&sync_timestamp=1622278867523&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.13.1.tgz#30303fabd53638892062d8b4e802cac7599e9fb7"
+  integrity sha1-MDA/q9U2OIkgYti06ALKx1men7c=
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -4516,9 +4516,9 @@ doctrine@^3.0.0:
     esutils "^2.0.2"
 
 dom-align@^1.10.4:
-  version "1.12.1"
-  resolved "https://registry.nlark.com/dom-align/download/dom-align-1.12.1.tgz#aedbc2c312983b46ea6b7a4d636617336a490ee9"
-  integrity sha1-rtvCwxKYO0bqa3pNY2YXM2pJDuk=
+  version "1.12.2"
+  resolved "https://registry.nlark.com/dom-align/download/dom-align-1.12.2.tgz?cache=0&sync_timestamp=1621853230649&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdom-align%2Fdownload%2Fdom-align-1.12.2.tgz#0f8164ebd0c9c21b0c790310493cd855892acd4b"
+  integrity sha1-D4Fk69DJwhsMeQMQSTzYVYkqzUs=
 
 dom-closest@^0.2.0:
   version "0.2.0"
@@ -6805,7 +6805,7 @@ is-glob@^4.0.0, is-glob@^4.0.1, is-glob@~4.0.1:
 
 is-mobile@^2.2.1:
   version "2.2.2"
-  resolved "https://registry.npm.taobao.org/is-mobile/download/is-mobile-2.2.2.tgz?cache=0&sync_timestamp=1614942639604&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fis-mobile%2Fdownload%2Fis-mobile-2.2.2.tgz#f6c9c5d50ee01254ce05e739bdd835f1ed4e9954"
+  resolved "https://registry.nlark.com/is-mobile/download/is-mobile-2.2.2.tgz#f6c9c5d50ee01254ce05e739bdd835f1ed4e9954"
   integrity sha1-9snF1Q7gElTOBec5vdg18e1OmVQ=
 
 is-negative-zero@^2.0.0, is-negative-zero@^2.0.1:
@@ -8398,7 +8398,7 @@ nanomatch@^1.2.9:
 
 nanopop@^2.1.0:
   version "2.1.0"
-  resolved "https://registry.npm.taobao.org/nanopop/download/nanopop-2.1.0.tgz?cache=0&sync_timestamp=1598256090184&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnanopop%2Fdownload%2Fnanopop-2.1.0.tgz#23476513cee2405888afd2e8a4b54066b70b9e60"
+  resolved "https://registry.npm.taobao.org/nanopop/download/nanopop-2.1.0.tgz#23476513cee2405888afd2e8a4b54066b70b9e60"
   integrity sha1-I0dlE87iQFiIr9LopLVAZrcLnmA=
 
 native-request@^1.0.5:

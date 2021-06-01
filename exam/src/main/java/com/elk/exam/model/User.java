@@ -3,6 +3,8 @@ package com.elk.exam.model;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 import java.io.Serializable;
+
+import io.swagger.models.auth.In;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -75,6 +77,12 @@ public class User implements Serializable {
      * 更新时间
      */
       private Date updateTime;
+
+
+  /**
+   * 学号
+   */
+  private Integer sNumber;
 
 
 }

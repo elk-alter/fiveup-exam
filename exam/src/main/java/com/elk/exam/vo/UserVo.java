@@ -31,4 +31,7 @@ public class UserVo {
 
     @JsonProperty("password")
     private String userPassword;
+
+    @JsonProperty("snumber")
+    private Integer sNumber;
 }

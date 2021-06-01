@@ -42,6 +42,7 @@
           <a-form-item label="选择单选题" :labelCol="labelCol" :wrapperCol="wrapperCol" enterButton="Search">
             <!-- 单选 -->
             <a-select
+                show-search
               mode="multiple"
               :size="size"
               :default-value="defaultRadios"
@@ -60,6 +61,7 @@
           <a-form-item label="选择多选题" :labelCol="labelCol" :wrapperCol="wrapperCol" enterButton="Search">
             <!-- 多选 -->
             <a-select
+                show-search
               mode="multiple"
               :size="size"
               :default-value="defaultChecks"
@@ -78,6 +80,7 @@
           <a-form-item label="选择判断题" :labelCol="labelCol" :wrapperCol="wrapperCol" enterButton="Search">
             <!-- 判断 -->
             <a-select
+                show-search
               mode="multiple"
               :size="size"
               :default-value="defaultJudges"
@@ -105,7 +108,8 @@
 </template>
 
 <script>
-import { getExamQuestionTypeList, examUpdate } from '../../../api/exam'
+import { getExamQuestionTypeList, examUpdate, getQuestionSelection } from '../../../api/exam'
+import TagSelectOption from '../../../components/TagSelect/TagSelectOption'
 
 const stepForms = [
   ['name', 'elapse', 'desc', 'avatar'],
@@ -115,6 +119,7 @@ const stepForms = [
 
 export default {
   name: 'ExamEditModal',
+  components: { TagSelectOption },
   data () {
     return {
       labelCol: {
@@ -131,6 +136,7 @@ export default {
       currentStep: 0,
       mdl: {},
       form: this.$form.createForm(this),
+      categoryList: [],
       // 考试的对象
       exam: {},
       name: '',
@@ -148,7 +154,16 @@ export default {
       defaultJudges: []
     }
   },
+  created () {
+    this.initCate()
+  },
   methods: {
+    initCate() {
+      getQuestionSelection().then(res => {
+        this.categoryList = res.data.categories
+        console.log(this.categoryList)
+      })
+    },
     edit (exam) {
       Object.assign(this.exam, exam) // 深度拷贝
       this.visible = true
