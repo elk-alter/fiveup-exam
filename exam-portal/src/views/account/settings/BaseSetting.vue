@@ -5,6 +5,11 @@
 
         <a-form layout="vertical">
           <a-form-item
+              label="用户名"
+          >
+            <a-input placeholder="设置登录用的用户名" v-model="form.username" />
+          </a-form-item>
+          <a-form-item
             label="昵称"
           >
             <a-input placeholder="给自己起个名字" v-model="form.name" />
@@ -102,6 +107,7 @@ export default {
     },
     updateUserInfo() {
       this.user.id = this.form.id
+      this.user.username = this.form.username
       this.user.nikename = this.form.name
       this.user.email = this.form.email
       this.user.description = this.form.welcome
